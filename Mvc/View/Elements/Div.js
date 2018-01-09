@@ -3,14 +3,14 @@
 
 /**
  * [ViewElement description]
- * @type {[type]}
+ * @type 
  */
 class Div extends HtmlElement
 {
     /**
      *
      */
-    constructor(args : any = {})
+    constructor(args = {})
     {
         super();
         this.setElement(

@@ -3,14 +3,14 @@
 
 /**
  * [ViewElement description]
- * @type {[type]}
+ * @type 
  */
 class Blockquote extends HtmlElement
 {
     /**
      *
      */
-    constructor(args? : {})
+    constructor(args = {})
     {
         super();
         this.setElement(

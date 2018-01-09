@@ -3,14 +3,14 @@
 
 /**
  * [ViewElement description]
- * @type {[type]}
+ * @type 
  */
 class H5 extends HtmlElement
 {
     /**
      *
      */
-    constructor(args : any = {})
+    constructor(args = {})
     {
         super();
         this.setElement(

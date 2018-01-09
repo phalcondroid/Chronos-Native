@@ -4,11 +4,6 @@ class ResolveService
     /**
      * 
      */
-    service;
-
-    /**
-     * 
-     */
     constructor(service = false)
     {
         if (service == false) {

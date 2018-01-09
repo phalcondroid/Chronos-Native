@@ -3,14 +3,14 @@
 
 /**
  * [ViewElement description]
- * @type {[type]}
+ * @type 
  */
 class Leyend extends HtmlElement
 {
     /**
      *
      */
-    constructor(args : any = {})
+    constructor(args = {})
     {
         super();
         this.setElement(

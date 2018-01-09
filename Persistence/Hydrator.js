@@ -1,8 +1,5 @@
 class Hydrator
 {
-
-    reflector;
-
     constructor()
     {
     }

@@ -1,13 +1,13 @@
 /**
  * [ViewElement description]
- * @type {[type]}
+ * @type 
  */
 class Td extends HtmlElement
 {
     /**
      *
      */
-    constructor(args : any = {})
+    constructor(args = {})
     {
         super();
         this.setElement(
@@ -20,9 +20,8 @@ class Td extends HtmlElement
     }
 
     /**
-     *
-     * @param  {[type]} num [description]
-     * @return {[type]}     [description]
+     * @param   num [description]
+     
      */
     colspan(cols)
     {
@@ -32,9 +31,9 @@ class Td extends HtmlElement
         return this;
     }
 
-        /** no pedi las hamburguesas soy un mk acompalene a comprar
-     * @param  {[type]} row [description]
-     * @return {[type]}     [description]
+    /**
+     * @param   row [description]
+     
      */
     rowspan(rows)
     {

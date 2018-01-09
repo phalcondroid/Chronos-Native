@@ -1,12 +1,12 @@
 class Select extends FormTag
 {
-    choose = "Choose...";
     /**
      *
      */
     constructor(args = {})
     {
         super();
+        this.choose = "Choose...";
         this.setElement(
             document.createElement(
                 "SELECT"

@@ -1,10 +1,11 @@
 class Container
 {
-    container;
-
+    /**
+     * 
+     */
     constructor()
     {
-
+        this.container = {};
     }
 
     /**
@@ -12,7 +13,7 @@ class Container
      * @param key 
      * @param value 
      */
-    set set(key, value)
+    set(key, value)
     {
         this.container[key] = value;
     }
@@ -21,7 +22,7 @@ class Container
      * Get value from container
      * @param key 
      */
-    get get(key)
+    get(key)
     {
         return this.container[key];
     }

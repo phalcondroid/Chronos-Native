@@ -1,13 +1,13 @@
 /**
  * [ViewElement description]
- * @type {[type]}
+ * @type 
  */
 class Var extends HtmlElement
 {
     /**
      *
      */
-    constructor(args : any = {})
+    constructor(args = {})
     {
         super();
         this.setElement(

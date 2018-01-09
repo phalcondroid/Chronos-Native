@@ -1,8 +1,8 @@
 
 class MethodType
 {
-    static POST = "POST";
-    static GET  = "GET";
-    static PUT  = "PUT";
-    static DELETE = "DELETE"
+    static get POST() { return "POST"; }
+    static get GET() { return "GET"; }
+    static get PUT() { return "PUT"; }
+    static get DELETE() { return "DELETE"; }
 }

@@ -20,7 +20,7 @@ class A extends HtmlElement
 
     /**
      * [favIcon description]
-     * @return {[type]} [description]
+     * @return  [description]
      */
     favIcon(favIcon) {
         let icon = new I()
@@ -33,8 +33,8 @@ class A extends HtmlElement
 
     /**
      * [href description]
-     * @param  {[type]} href [description]
-     * @return {[type]}      [description]
+     * @param   href [description]
+     * @return       [description]
      */
     href(href) {
         this.attr("href", href);

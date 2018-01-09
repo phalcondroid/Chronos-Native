@@ -3,10 +3,6 @@
  */
 class Di
 {
-    /**
-     * Dependency injector container
-     */
-    static di = {};
     
     /**
      * Inject value to dependency injector
@@ -18,6 +14,9 @@ class Di
     {
         if (key == "" || typeof key == "undefined" || value == "" || typeof value == "undefined") {
             throw "Key and value must not be empty in \"Di\"";
+        }
+        if (typeof Di.di == "undefined") {
+            Di.di = {};
         }
         Di.di[key] = value;
     }
@@ -40,6 +39,9 @@ class Di
      */
     static getAll()
     {
+        if (typeof Di.di == "undefined") {
+            Di.di = {};
+        }
         return Di.di;
     }
 }

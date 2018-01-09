@@ -1,8 +1,11 @@
+class ComparisonOperators {
+    static get AND() { return "&&"; }
+    static get OR() { return "||"; }
+    static get EQUAL() { return "=="; }
+    static get DIFFERENT() { return "!="; }
 
-class ComparisonOperators
-{
-    static AND       = "&&";
-    static OR        = "||";
-    static EQUAL     = "==";
-    static DIFFERENT = "!=";
+    constructor()
+    {
+
+    }
 }

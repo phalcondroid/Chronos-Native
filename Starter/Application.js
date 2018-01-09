@@ -3,11 +3,6 @@ class Application
     /**
      * 
      */
-    config;
-    
-    /**
-     * 
-     */
     constructor(config)
     {
         this.config = config;

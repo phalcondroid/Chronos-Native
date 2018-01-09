@@ -1,10 +1,10 @@
 
 class Scope
 {
-    static LOCAL       = 0;
-    static DEV         = 1;
-    static TEST        = 2;
-    static QA          = 3;
-    static STAGING     = 4;
-    static PRODUCTION  = 5;
+    static get LOCAL() { return 0 };
+    static get DEV() { return 1; }
+    static get TEST() { return 2; }
+    static get QA() { return 3; }
+    static get STAGING() { return 4; }
+    static get PRODUCTION() { return 5; }
 }

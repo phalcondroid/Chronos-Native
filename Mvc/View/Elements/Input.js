@@ -1,23 +1,19 @@
-
-
-import { FormTag } from "./forms/FormTag";
-
 /**
  * 
  * @type 
  */
 class Input extends FormTag
 {
-    static NUMBERS = 0;
-    static TEXT = 1;
-    static NO_SPECIAL_CHARACTERS = 2;
-    static TEXT_NO_SPECIAL_CHARACTERS = 3;
-    static NUMBERS_NO_SPECIAL_CHARACTERS = 4;
+    static get NUMBERS() { return 0; }
+    static get TEXT() { return 1; }
+    static get NO_SPECIAL_CHARACTERS() { return 2; }
+    static get TEXT_NO_SPECIAL_CHARACTERS() { return 3; }
+    static get NUMBERS_NO_SPECIAL_CHARACTERS() { return 4; }
 
     /**
      * 
      */
-    constructor(args : any = {})
+    constructor(args = {})
     {
         super();
         this.setElement(
@@ -31,8 +27,8 @@ class Input extends FormTag
     
     /**
      * [type description]
-     * @param  {[type]} type [description]
-     * @return {[type]}      [description]
+     * @param   type [description]
+     * @return       [description]
      */
     type(type)
     {

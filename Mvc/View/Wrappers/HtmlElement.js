@@ -1,27 +1,16 @@
 
 class HtmlElement
 {
-    viewModelData; 
-    CSS_MANAGER     = "Chronos.Dom.CssManager";
-    PARENT_MANAGER  = "Chronos.Dom.DomManager";
-    ELEMENT_MANAGER = "Chronos.Dom.ElementManager"
-
-    /**
-     * 
-     */
-    element;
-
-    /**
-     * 
-     */
-    di;
-
     /**
      * 
      * @param tagName 
      */
     constructor()
     {
+        this.CSS_MANAGER     = "Chronos.Dom.CssManager";
+        this.PARENT_MANAGER  = "Chronos.Dom.DomManager";
+        this.ELEMENT_MANAGER = "Chronos.Dom.ElementManager";
+
         let localDecorator = new Proxy(
             this,
             this.getValidator()
@@ -127,7 +116,7 @@ class HtmlElement
 
     /**
      * [getClassName description]
-     * @return {[type]} [description]
+     * @return  [description]
      */
     getClassName()
     {

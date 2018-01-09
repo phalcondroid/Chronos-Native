@@ -1,17 +1,12 @@
-import { Container }   from "../../Di/Container";
-import { HtmlElement } from "./Wrappers/HtmlElement";
-
 class ViewModel
 {
-    views;
-    data = {};
-
     /**
      * 
      * @param data 
      */
     constructor()
     {
+        this.data = {};
     }
 
     /**

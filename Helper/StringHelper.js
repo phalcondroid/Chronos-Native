@@ -8,7 +8,7 @@ class StringHelper
     /**
      * [sanitizeString description]
      * @param  {string} str [description]
-     * @return {[type]}     [description]
+     
      */
     static sanitizeString(str) {
         let idTr = str.replace(/[`~!@#$%^&*()_|+\-=?;:"",.<>\{\}\[\]\\\/]/gi, "").toLowerCase();
@@ -18,8 +18,8 @@ class StringHelper
 
     /**
      * [capitalize description]
-     * @param  {[type]} str [description]
-     * @return {[type]}     [description]
+     * @param   str [description]
+     
      */
     static capitalize(str) {
         return str.charAt(0).toUpperCase() + str.slice(1);

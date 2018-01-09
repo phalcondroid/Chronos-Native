@@ -3,16 +3,6 @@ class ResolveController
 {
     /**
      * 
-     */
-    di;
-
-    /**
-     * 
-     */
-    controllers;
-
-    /**
-     * 
      * @param controllers 
      */
     constructor(controllers)

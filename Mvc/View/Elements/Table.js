@@ -1,25 +1,13 @@
 /**
  * [Table description]
- * @type {[type]}
+ * @type 
  */
 class Table extends HtmlElement
 {
-    tblElements;
-    thead;
-    tbody;
-    tfoot;
-    tr;
-    th;
-    td;
-    system;
-    header = false;
-    fnCHeader;
-    fnCContent;
-
     /**
      *
      */
-    constructor(args : any = {})
+    constructor(args = {})
     {
         super();
         this.setElement(

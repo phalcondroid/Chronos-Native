@@ -1,8 +1,6 @@
 
 class ParentManager
 {
-    element;
-
     constructor()
     {
     }

@@ -3,8 +3,6 @@
  */
 class Service
 {
-    di;
-
     /**
      * 
      */

@@ -1,7 +1,3 @@
-
-
-import { I } from "./I";
-
 /**
  *
  */
@@ -11,7 +7,7 @@ class Button extends HtmlElement
     /**
      *
      */
-    constructor(args : any = {})
+    constructor(args = {})
     {
         super();
         this.setElement(
@@ -87,7 +83,7 @@ class Button extends HtmlElement
 
     /**
      * [warning description]
-     * @return {[type]} [description]
+     * @return  [description]
      */
     warning()
     {
@@ -97,7 +93,7 @@ class Button extends HtmlElement
 
     /**
      * [danger description]
-     * @return {[type]} [description]
+     * @return  [description]
      */
     danger()
     {

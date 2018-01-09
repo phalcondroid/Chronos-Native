@@ -1,11 +1,6 @@
 class ElementAdapter
 {
     /**
-     *
-     */
-    element = false;
-
-    /**
      * 
      * @param element 
      * @param tagName 

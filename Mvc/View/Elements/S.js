@@ -1,13 +1,13 @@
 /**
  * [ViewElement description]
- * @type {[type]}
+ * @type 
  */
 class S extends HtmlElement
 {
     /**
      *
      */
-    constructor(args : any = {})
+    constructor(args = {})
     {
         super();
         this.setElement(

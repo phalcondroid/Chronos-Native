@@ -1,14 +1,13 @@
 
 class Controller
 {
-    di = new Service;
-    viewModel = {};
-
     /**
      * 
      */
     constructor(resolveProperties = null)
     {
+        this.di = new Service;
+        this.viewModel = {};
         let injectable = new Injectable();
         return injectable.inject(this, resolveProperties);
     }

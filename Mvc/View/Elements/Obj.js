@@ -1,16 +1,13 @@
-import { Service }     from "../../../Di/Service";
-
-
 /**
  * [ViewElement description]
- * @type {[type]}
+ * @type 
  */
 class Obj extends HtmlElement
 {
     /**
      *
      */
-    constructor(args : any = {})
+    constructor(args = {})
     {
         super();
         this.setElement(

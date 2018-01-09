@@ -1,13 +1,5 @@
-
-import { RawModel } from "./RawModel";
-import { SessionStorage } from "../../Di/SessionStorage";
-
 class StaticModel extends RawModel
 {
-    index : number;
-    storage;
-    di;
-
     /**
      *
      */
@@ -36,7 +28,7 @@ class StaticModel extends RawModel
      */
     getData()
     {
-        let data : string = this.storage.get(
+        let data = this.storage.get(
             "Models_Identify_" + this.getClassName()
         );
         return data;

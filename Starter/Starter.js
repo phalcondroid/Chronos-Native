@@ -3,34 +3,6 @@ class Starter
 {
     /**
      * 
-     */
-    scope = Scope.DEV;
-
-    /**
-     * 
-     */
-    config;
-
-    /**
-     * 
-     */
-    controllers;
-
-    /**
-     * 
-     */
-    data;
-
-    /**
-     * 
-     */
-    constructor()
-    {
-        
-    }
-
-    /**
-     * 
      * @param scope 
      */
     setScope(scope)

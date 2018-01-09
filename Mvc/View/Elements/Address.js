@@ -3,7 +3,7 @@ class Address extends HtmlElement
     /**
      *
      */
-    constructor(args : any = {})
+    constructor(args = {})
     {
         super();
         this.setElement(

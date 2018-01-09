@@ -3,11 +3,6 @@ class InitializeComponents
     /**
      * 
      */
-    di;
-
-    /**
-     * 
-     */
     inject()
     {
         Di.set(

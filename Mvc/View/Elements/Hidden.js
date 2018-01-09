@@ -1,18 +1,12 @@
- 
-import { Input } from "./Input";
-
-namespace Northwind.Tag
+/**
+ * [Input description]
+ * @type 
+ */
+class Hidden extends Input
 {
-    /**
-     * [Input description]
-     * @type {[type]}
-     */
-    class Hidden extends Input
+    constructor(args = {})
     {
-    	constructor(args : any = {})
-    	{
-    		super();
-            this.setHidden();
-    	}
+        super();
+        this.setHidden();
     }
 }

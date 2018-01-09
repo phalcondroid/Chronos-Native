@@ -1,14 +1,14 @@
 class AjaxModelPersistent extends StaticModel
 {
-    container = new SessionStorage;
-    source;
-    insertUrl = null;
-    deleteUrl = null;
-    updateUrl = null;
-    findUrl   = null;
-    params;
-    internalId;
-    method;
+    constructor()
+    {
+        super();
+        this.container = new SessionStorage;
+        this.insertUrl = null;
+        this.deleteUrl = null;
+        this.updateUrl = null;
+        this.findUrl   = null;
+    }
 
     setSource(data)
     {
@@ -73,7 +73,7 @@ class AjaxModelPersistent extends StaticModel
         return this.updateUrl;
     }
 
-    setParams(params : Object)
+    setParams(params)
     {
         this.params = params;
     }

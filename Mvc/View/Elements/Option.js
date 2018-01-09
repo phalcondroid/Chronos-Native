@@ -9,7 +9,7 @@ class Option extends HtmlElement
     /**
      *
      */
-    constructor(args : any = {})
+    constructor(args = {})
     {
         super();
         this.setElement(

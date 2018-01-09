@@ -1,7 +1,10 @@
 class RawModel
 {
-    state = 1;
-    identify = Uuid.get();
+    constructor()
+    {
+        this.state    = 1;
+        this.identify = Uuid.get();
+    }
 
     /**
      * 
@@ -40,7 +43,7 @@ class RawModel
 
     /**
      * [getClassName description]
-     * @return {[type]} [description]
+     * @return  [description]
      */
     getClassName() {
         let funcNameRegex = /function (.{1,})\(/;

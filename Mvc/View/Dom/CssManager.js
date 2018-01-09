@@ -2,11 +2,6 @@ class CssManager
 {
     /**
      * 
-     */
-    element;
-
-    /**
-     * 
      * @param element 
      */
     constructor()
@@ -36,7 +31,7 @@ class CssManager
      * Handle style through javascript
      * 
      * @param  String key, css propertie
-     * @param String|Object value
+     * @param  value
      * @return this
      */
     css(key, value = null) {
@@ -56,7 +51,7 @@ class CssManager
      * Handle style through javascript
      * 
      * @param  String key, css propertie
-     * @param String|Object value
+     * @param  value
      * @return this
      */
     setStyle(key, value = null) {

@@ -1,12 +1,5 @@
-import { Reflection } from "./Reflection";
-
 class Checksum
 {
-    /**
-     * Object become to string
-     */
-    stringObject = "";
-
     /**
      * Build checksum of any javascript object
      * @param Object obj
@@ -16,6 +9,7 @@ class Checksum
         if (typeof obj == "object") {
             this.set(obj);
         }
+        this.stringObject = "";
     }
 
     /**

@@ -3,7 +3,7 @@ class Abbr extends HtmlElement
     /**
      *
      */
-    constructor(args : any = {})
+    constructor(args = {})
     {
         super();
         this.setElement(

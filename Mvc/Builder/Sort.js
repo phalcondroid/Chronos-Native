@@ -1,15 +1,15 @@
 
 class Sort
 {
-    static ASC  = 1;
-    static DESC = -1;
+    static get ASC() { return 1; }
+    static get DESC() { return -1; }
 
     static sortByField(data, field) {
 
         var arr = [];
         for (var prop in data) {
             if (data.hasOwnProperty(prop)) {
-                var obj : any = {};
+                var obj = {};
                 obj[prop] = data[prop];
                 obj.tempSortName = data[prop][field].toLowerCase();
                 arr.push(obj);

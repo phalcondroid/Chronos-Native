@@ -1,16 +1,14 @@
 
 class UnitOfWork
 {
-    static NEW = 1;
-    static CREATED   = 2;
-    static DELETED   = 3;
-
-    detached;
-    updated;
-    deleted;
+    static get NEW() { return 1; }
+    static get CREATED() { return 2; }
+    static get DELETED() { return 3; }
 
     constructor()
     {
-
+        this.detached = null;
+        this.updated = null;
+        this.deleted = null;
     }
 }

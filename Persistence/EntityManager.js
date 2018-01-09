@@ -1,23 +1,14 @@
 
 class EntityManager
 {
-    uow;
-    di;
-    ajax;
-    hydrator;
-    source;
-    model;
-    fnResponse;
-    resultSet;
-    container = new Container();
-
     /**
      * Entity manager is a class
      */
     constructor()
     {
         this.uow = new UnitOfWork;
-        this.di  = new Service; 
+        this.di  = new Service;
+        this.container = new Container();
     }
 
     /**
@@ -582,7 +573,7 @@ class EntityManager
 
     /**
      * [getClassName description]
-     * @return {[type]} [description]
+     * @return  [description]
      */
     getClassName() {
         let funcNameRegex = /function (.{1,})\(/;

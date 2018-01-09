@@ -1,19 +1,15 @@
 class AjaxModel extends RawModel
 {
-    source;
-    insertUrl  = null;
-    deleteUrl  = null;
-    updateUrl  = null;
-    findUrl    = null;
-    findOneUrl = null;
-    countUrl   = null;
-    params;
-    internalId;
-    method     = "POST";
-
     constructor()
     {
         super();
+        this.insertUrl  = null;
+        this.deleteUrl  = null;
+        this.updateUrl  = null;
+        this.findUrl    = null;
+        this.findOneUrl = null;
+        this.countUrl   = null;
+        this.method     = "POST";
         this.initialize();
     }
 

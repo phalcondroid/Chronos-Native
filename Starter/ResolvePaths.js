@@ -3,16 +3,6 @@ class ResolvePaths
 {
     /**
      * 
-     */
-    paths;
-
-    /**
-     * 
-     */
-    di;
-
-    /**
-     * 
      * @param paths 
      */
     constructor(paths)

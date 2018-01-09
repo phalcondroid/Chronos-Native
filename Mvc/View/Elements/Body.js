@@ -3,11 +3,11 @@
 
 /**
  * [ViewElement description]
- * @type {[type]}
+ * @type 
  */
 class Body extends HtmlElement
 {
-    constructor(args : any = {})
+    constructor(args = {})
     {
         super();
         this.setElement(document.body);

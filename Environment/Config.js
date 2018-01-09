@@ -1,11 +1,9 @@
-import { Scope } from "./Scope";
-
 class Config
 {
-    /**
-     * 
-     */
-    config = {};
+    constructor()
+    {
+        this.config = {};
+    }
 
     /**
      * Set general config and environment

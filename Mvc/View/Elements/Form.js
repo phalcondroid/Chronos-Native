@@ -1,7 +1,3 @@
-import { Service }        from "../../../Di/Service";
-import { HtmlElement }    from "../Wrappers/HtmlElement";
-import { ElementAdapter } from "../Adapter/ElementAdapter"; 
-
 /**
  * 
  * @type 
@@ -9,16 +5,12 @@ import { ElementAdapter } from "../Adapter/ElementAdapter";
 class Form extends HtmlElement
 {
     /**
-     *
-     */
-    invalidElements = new Array;
-
-    /**
      * 
      */
-    constructor(args : any = {})
+    constructor(args = {})
     {
         super();
+        this.invalidElements = new Array;
         this.setElement(
             document.createElement(
                 "FORM"
@@ -31,7 +23,7 @@ class Form extends HtmlElement
     /**
      * @param {Function} fn
      */
-    submit(fn : Function)
+    submit(fn)
     {
         this.getElement().addEventListener("submit", function (event) {
             let returnCallback = fn.bind(this)(event);
@@ -53,7 +45,7 @@ class Form extends HtmlElement
     /**
      * 
      */
-    validate(fn : Function)
+    validate(fn)
     {
         let elements = this.getFormElements();
         this.invalidElements = new Array;
@@ -96,7 +88,7 @@ class Form extends HtmlElement
     /**
      * 
      */
-    setAutoComplete(data : Boolean)
+    setAutoComplete(data)
     {
         if (data) {
             this.attr("autocomplete", "on");

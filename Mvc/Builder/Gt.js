@@ -2,16 +2,12 @@ class Gt extends Transaction
 {
     /**
      * 
-     */
-    condition = {};
-
-    /**
-     * 
      * @param condition 
      */
     constructor(condition)
     {
         super();
+        this.condition = {};
         if (typeof condition == "object") {
             this.condition = condition;
         } else {

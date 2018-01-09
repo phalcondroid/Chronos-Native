@@ -1,15 +1,5 @@
 class Query
-{
-    lim    = null;
-    sort   = new Array;
-    data   = false;
-    cols   = new Array;
-    conds  = null;
-    sortConds = false;
-    transactions = new Array; 
-    negativeConds = null;
-    negativeTransactions   = new Array();
-    
+{   
     /**
      * 
      * @param data 
@@ -17,6 +7,14 @@ class Query
     constructor(data = false)
     {
         this.data = data;
+        this.lim  = null;
+        this.sort = new Array;
+        this.cols = new Array;
+        this.conds = null;
+        this.sortConds = false;
+        this.transactions = new Array;
+        this.negativeConds = null;
+        tjis.negativeTransactions = new Array;
     }
 
     /**
@@ -46,7 +44,7 @@ class Query
      */
     resolveColumns(row)
     {
-        var newRow : Object = {};
+        var newRow = {};
         if (Object.keys(this.cols).length > 0) {
             for (let key in this.cols) {
                 newRow[this.cols[key]] = row[this.cols[key]];

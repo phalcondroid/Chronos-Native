@@ -1,11 +1,6 @@
 
 class Reflection
 {
-    classToReflect;
-    method = new Array();
-    attributes = new Array();
-    deny = {};
-
     /**
      * Make reflection to objects
      */
@@ -17,6 +12,9 @@ class Reflection
             "updateUrl" : true,
             "findUrl"   : true
         };
+        this.method = new Array();
+        this.attributes = new Array();
+        this.deny = {};
     }
 
     /**

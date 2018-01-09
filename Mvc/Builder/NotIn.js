@@ -2,16 +2,12 @@ class NotIn extends Transaction
 {
     /**
      * 
-     */
-    conditions = new Array;
-
-    /**
-     * 
      * @param condition 
      */
     constructor(condition)
     {
         super();
+        this.condition = new Array;
         if (typeof condition == "object") {
             for (var key in condition) {
                 if (condition[key] instanceof Array) {

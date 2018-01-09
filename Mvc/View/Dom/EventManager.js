@@ -2,11 +2,6 @@ class EventManager
 {
     /**
      * 
-     */
-    element : Document;
-
-    /**
-     * 
      * @param element 
      */
     constructor()
@@ -34,7 +29,7 @@ class EventManager
     /**
      * 
      * @param  {Function} fn [description]
-     * @return {[type]}      [description]
+     * @return       [description]
      */
     click(fn)
     {
@@ -59,7 +54,7 @@ class EventManager
 
     /**
      *
-     * @return {[type]} [description]
+     * @return  [description]
      */
     change(fn)
     {
@@ -72,7 +67,7 @@ class EventManager
 
     /**
      * [change description]
-     * @return {[type]} [description]
+     * @return  [description]
      */
     keypress(fn)
     {
@@ -85,7 +80,7 @@ class EventManager
 
     /**
      * [change description]
-     * @return {[type]} [description]
+     * @return  [description]
      */
     keydown(fn) {
         this.setEventToElement(
@@ -97,7 +92,7 @@ class EventManager
 
     /**
      * [change description]
-     * @return {[type]} [description]
+     * @return  [description]
      */
     keyup(fn) {
         this.setEventToElement(
@@ -118,7 +113,7 @@ class EventManager
 
     /**
      * [change description]
-     * @return {[type]} [description]
+     * @return  [description]
      */
     blur(fn)
     {
@@ -131,7 +126,7 @@ class EventManager
 
     /**
      * [change description]
-     * @return {[type]} [description]
+     * @return  [description]
      */
     focus(fn)
     {

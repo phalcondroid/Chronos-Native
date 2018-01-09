@@ -3,8 +3,6 @@
  */
 class ElementManager
 {
-    element;
-
     /**
      * 
      * @param element 
@@ -279,8 +277,8 @@ class ElementManager
 
     /**
      *
-     * @param  {any = null}        val [description]
-     * @return {[type]}   [description]
+     * @param          val [description]
+     * @return    [description]
      */
     val(val = false)
     {
@@ -295,8 +293,8 @@ class ElementManager
 
     /**
      *
-     * @param  {any = null}        val [description]
-     * @return {[type]}   [description]
+     * @param          val [description]
+     * @return    [description]
      */
     getValue(val = false)
     {
@@ -319,8 +317,8 @@ class ElementManager
 
     /**
      * 
-     * @param  {any = null}        text [description]
-     * @return {[type]}   [description]
+     * @param          text [description]
+     * @return    [description]
      */
     text(text = false) {
         if (text) {

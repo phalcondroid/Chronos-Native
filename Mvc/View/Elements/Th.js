@@ -1,13 +1,13 @@
 /**
  * [ViewElement description]
- * @type {[type]}
+ * @type 
  */
 class Th extends HtmlElement
 {
     /**
      *
      */
-    constructor(args : any = {})
+    constructor(args = {})
     {
         super();
         this.setElement(
@@ -21,8 +21,8 @@ class Th extends HtmlElement
 
     /*
         *
-        * @param  {[type]} num [description]
-        * @return {[type]}     [description]
+        * @param   num [description]
+        
         */
     colspan(cols) {
         this.attr({
@@ -33,8 +33,8 @@ class Th extends HtmlElement
 
     /**
      *
-     * @param  {[type]} row [description]
-     * @return {[type]}     [description]
+     * @param   row [description]
+     
      */
     rowspan(rows) {
         this.attr({

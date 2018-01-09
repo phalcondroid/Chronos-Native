@@ -2,11 +2,6 @@ class DomManager
 {
     /**
      * 
-     */
-    element;
-
-    /**
-     * 
      * @param element
      */
     constructor()
@@ -17,7 +12,7 @@ class DomManager
      * 
      * @param id 
      */
-    getById(id : string, context = null)
+    getById(id, context = null)
     {
         let adapter = new ElementAdapter(
             document.getElementById(id)
@@ -28,7 +23,7 @@ class DomManager
     /**
      *
      */
-    getByTag(name : string)
+    getByTag(name)
     {
         let elements = document.getElementsByTagName(
             name
@@ -58,7 +53,7 @@ class DomManager
     /**
      *
      */
-    getByClass(name : string, context = null)
+    getByClass(name, context = null)
     {
         let elements = document.getElementsByClassName(
             name
@@ -86,7 +81,7 @@ class DomManager
     /**
      *
      */
-    getByName(name : string, context = null)
+    getByName(name, context = null)
     {
         let elements = document.getElementsByName(
             name
@@ -130,7 +125,7 @@ class DomManager
 
     /**
      * [getClassName description]
-     * @return {[type]} [description]
+     * @return  [description]
      */
     getClassName() {
         let funcNameRegex = /function (.{1,})\(/;

@@ -1,17 +1,14 @@
 
 class Filter
 {
-    params;
-    first = "";
-    final = [];
-    init  = false;
-    sort  = new Array();
-    limit = null;
-    columns = {};
-
     constructor()
     {
-
+        this.first = "";
+        this.final = [];
+        this.init  = false;
+        this.sort  = new Array();
+        this.limit = null;
+        this.columns = {};
     }
 
     buildCondition(params)
@@ -164,7 +161,7 @@ class Filter
 
     getExpression(key, content, operator, index, length, comparison = "==")
     {
-        var condition : string = "";
+        var condition = "";
         var finalOperator = "";
         if (this.init) {
             finalOperator = operator;
@@ -195,7 +192,7 @@ class Filter
      */
     getColumns(row)
     {
-        var newRow : Object = {};
+        var newRow = {};
         if (Object.keys(this.columns).length > 0) {
             for (let key in this.columns) {
                 newRow[this.columns[key]] = row[this.columns[key]];

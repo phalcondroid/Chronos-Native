@@ -1,21 +1,17 @@
 class Ajax
 {
-    httpRequest;
-    context = {};
-    method  = "POST";
-    parameters = "";
-    error;
-    url;
-    container = [];
-    responseFn = function() {};
-    bfSendFn = function () {}.bind(this);
-
     /**
      *
      */
     constructor()
     {
         this.httpRequest = new XMLHttpRequest();
+        this.context = {};
+        this.method  = "POST";
+        this.parameters = "";
+        this.container  = [];
+        this.responseFn = function() {};
+        this.bfSendFn = function () {}.bind(this);
     }
 
     /**
@@ -234,7 +230,7 @@ class Ajax
 
     /**
      * [getClassName description]
-     * @return {[type]} [description]
+     * @return  [description]
      */
     getClassName() {
         let funcNameRegex = /function (.{1,})\(/;
