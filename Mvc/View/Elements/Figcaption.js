@@ -10,7 +10,7 @@ class Figcaption extends HtmlElement
     /**
      *
      */
-    constructor(args = {})
+    constructor(args={})
     {
         super();
         this.setElement(

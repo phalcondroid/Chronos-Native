@@ -13,7 +13,7 @@ class Input extends FormTag
     /**
      * 
      */
-    constructor(args = {})
+    constructor(args={})
     {
         super();
         this.setElement(

@@ -310,7 +310,7 @@ class Message
 
 class MessageCode
 {
-    static get NOT_VALID_ARRAY() { return 1; }
+    static get NOT_VALID_ARRAY() { return 1; }
     static get NOT_VALID_ARRAY_OBJECT() { return 2; }
     static get NOT_VALID_OBJECT() { return 3; }
 }
@@ -421,7 +421,18 @@ class Validator
         }
     }
 }
+class Transaction
+{
+    constructor()
+    {
 
+    }
+    
+    get(row)
+    {
+
+    }
+}
 class And extends Transaction
 {
     /**
@@ -460,43 +471,6 @@ class And extends Transaction
             }
         }
         return true;
-    }
-}
-
-class ComparisonOperators
-{
-    static get AND() { return "&&" }
-    static get OR() { return "||"; }
-    static get EQUAL() { return "=="; }
-    static get DIFFERENT() { return "!="; }
-}
-
-class DataType
-{
-    static get BOOLEAN() { return 1; }
-    static get INTEGER() { return 2; }
-    static get STRING() { return 3; }
-    static get OBJECT() { return 4; }
-    static get ARRAY() { return 5; }
-    static get CLASS() { return 6; }
-
-    static get BOOLEAN_TYPE() { return "boolean"; }
-    static get INTEGER_TYPE() { return "number"; }
-    static get STRING_TYPE() { return "string"; }
-    static get OBJECT_TYPE() { return "object"; }
-
-    /**
-     *
-     */
-    static getValueByType(value)
-    {
-        var tyof = typeof value;
-        switch (tyof) {
-            case DataType.STRING_TYPE:
-                    value = "\"" + value + "\"";
-                break;
-        }
-        return value;
     }
 }
 class Group extends Transaction
@@ -1148,24 +1122,66 @@ class Sort
     }
 }
 
-class Transaction
+class RawModel
 {
     constructor()
     {
-
+        this.state    = 1;
+        this.identify = Uuid.get();
     }
-    
-    get(row)
+
+    /**
+     * 
+     */
+    initialize()
     {
-
     }
-}
-class Component extends Controller
-{
-	constructor(context = false)
-	{
-		super();
-	}
+
+    /**
+     * 
+     */
+    beforeInsert()
+    {
+    }
+
+    /**
+     * 
+     */
+    beforeFind()
+    {
+    }
+
+    /**
+     * 
+     */
+    beforeUpdate()
+    {
+    }
+
+    /**
+     * 
+     */
+    beforeDelete()
+    {
+    }
+
+    /**
+     * [getClassName description]
+     * @return  [description]
+     */
+    getClassName() {
+        let funcNameRegex = /function (.{1,})\(/;
+        let results  = (funcNameRegex).exec(this["constructor"].toString());
+        return (results && results.length > 1) ? results[1] : "";
+    }
+
+    /**
+     *
+     */
+    getIdentify()
+    {
+        return this.identify;
+    }
 }
 class AjaxModel extends RawModel
 {
@@ -1260,6 +1276,70 @@ class AjaxModel extends RawModel
     getMethod()
     {
         return this.method;
+    }
+}
+class StaticModel extends RawModel
+{
+    /**
+     *
+     */
+    constructor(di)
+    {
+        super();
+        this.storage = new SessionStorage;
+        this.initialize();
+    }
+
+    /**
+     *
+     */
+    setData(data)
+    {
+        this.storage.set(
+            "Models_Identify_" + this.getClassName(),
+            JSON.stringify(
+                data
+            )
+        );
+    }
+
+    /**
+     *
+     */
+    getData()
+    {
+        let data = this.storage.get(
+            "Models_Identify_" + this.getClassName()
+        );
+        return data;
+    }
+
+    /**
+     *
+     */
+    getObjectData()
+    {
+        return JSON.parse(
+            this.storage.get(
+                "Models_Identify_" + this.getClassName()
+            )
+        );
+    }
+
+    /**
+     *
+     */
+    setIndex(index)
+    {
+        this.index = index;
+    }
+
+    /**
+     *
+     */
+    getIndex()
+    {
+        return this.index;
     }
 }
 class AjaxModelPersistent extends StaticModel
@@ -1375,131 +1455,6 @@ class Deny
             "internalId",
             "method"
         ];
-    }
-}
-class RawModel
-{
-    constructor()
-    {
-        this.state    = 1;
-        this.identify = Uuid.get();
-    }
-
-    /**
-     * 
-     */
-    initialize()
-    {
-    }
-
-    /**
-     * 
-     */
-    beforeInsert()
-    {
-    }
-
-    /**
-     * 
-     */
-    beforeFind()
-    {
-    }
-
-    /**
-     * 
-     */
-    beforeUpdate()
-    {
-    }
-
-    /**
-     * 
-     */
-    beforeDelete()
-    {
-    }
-
-    /**
-     * [getClassName description]
-     * @return  [description]
-     */
-    getClassName() {
-        let funcNameRegex = /function (.{1,})\(/;
-        let results  = (funcNameRegex).exec(this["constructor"].toString());
-        return (results && results.length > 1) ? results[1] : "";
-    }
-
-    /**
-     *
-     */
-    getIdentify()
-    {
-        return this.identify;
-    }
-}
-class StaticModel extends RawModel
-{
-    /**
-     *
-     */
-    constructor(di)
-    {
-        super();
-        this.storage = new SessionStorage;
-        this.initialize();
-    }
-
-    /**
-     *
-     */
-    setData(data)
-    {
-        this.storage.set(
-            "Models_Identify_" + this.getClassName(),
-            JSON.stringify(
-                data
-            )
-        );
-    }
-
-    /**
-     *
-     */
-    getData()
-    {
-        let data = this.storage.get(
-            "Models_Identify_" + this.getClassName()
-        );
-        return data;
-    }
-
-    /**
-     *
-     */
-    getObjectData()
-    {
-        return JSON.parse(
-            this.storage.get(
-                "Models_Identify_" + this.getClassName()
-            )
-        );
-    }
-
-    /**
-     *
-     */
-    setIndex(index)
-    {
-        this.index = index;
-    }
-
-    /**
-     *
-     */
-    getIndex()
-    {
-        return this.index;
     }
 }
 class ElementAdapter
@@ -2764,2994 +2719,6 @@ class ParentManager
         return this.element;
     }
 }
-/**
- *
- */
-class A extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "A"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-
-    /**
-     * [favIcon description]
-     * @return  [description]
-     */
-    favIcon(favIcon) {
-        let icon = new I()
-        .class(favIcon);
-        this.append(
-            icon.getElement()
-        );
-        return this;
-    }
-
-    /**
-     * [href description]
-     * @param   href [description]
-     * @return       [description]
-     */
-    href(href) {
-        this.attr("href", href);
-        return this;
-    }
-}
-class Abbr extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "ABBR"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-class Address extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "ADDRESS"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-class Area extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "AREA"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Article extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "ARTICLE"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Aside extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "DB"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Audio extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "DB"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class B extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "B"
-            )
-        );
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Base extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "BASE"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-     }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Bdi extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "BDI"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Bdo extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "BDO"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Blockquote extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "BLOCKQUOTE"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Body extends HtmlElement
-{
-    constructor(args = {})
-    {
-        super();
-        this.setElement(document.body);
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
- 
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Br extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "BR"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- *
- */
-class Button extends HtmlElement
-{
-
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "BUTTON"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-
-    /**
-     *
-     * @param
-     * @return
-     */
-    type(type) {
-        this.attr("type", type);
-        return this;
-    }
-
-    /**
-     *
-     * @return
-     */
-    favIcon(favIcon)
-    {
-        let icon = new I()
-        .class(favIcon);
-        this.append(icon);
-        return this;
-    }
-
-    /**
-     *
-     * @return
-     */
-    success()
-    {
-        this.addClass("btn btn-success");
-        return this;
-    }
-
-    /**
-     *
-     * @return
-     */
-    notice()
-    {
-        this.addClass("btn btn-notice");
-        return this;
-    }
-
-    /**
-     *
-     * @return
-     */
-    default()
-    {
-        this.addClass("btn btn-default");
-        return this;
-    }
-
-    /**
-     *
-     * @return
-     */
-    primary()
-    {
-        this.addClass("btn btn-primary");
-        return this;
-    }
-
-    /**
-     * [warning description]
-     * @return  [description]
-     */
-    warning()
-    {
-        this.addClass("btn btn-warning");
-        return this;
-    }
-
-    /**
-     * [danger description]
-     * @return  [description]
-     */
-    danger()
-    {
-        this.addClass("btn btn-danger");
-        return this;
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Canvas extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "CANVAS"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Caption extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "CAPTION"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Cite extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "CITE"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Code extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "CODE"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
- 
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Col extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "COL"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class ColGroup extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "COLGROUP"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Datalist extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "DATALIST"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Db extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "DB"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Del extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "BR"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Details extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "DETAILS"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Dfn extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "DFN"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Dialog extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "DIALOG"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Div extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "DIV"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Dl extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "DL"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Dt extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "DT"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Em extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "EM"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Embed extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "EMBED"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Fieldset extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "FIELDSET"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Figcaption extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "FIGCAPTION"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Figure extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "FIGURE"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Footer extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "FOOTER"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- * 
- * @type 
- */
-class Form extends HtmlElement
-{
-    /**
-     * 
-     */
-    constructor(args = {})
-    {
-        super();
-        this.invalidElements = new Array;
-        this.setElement(
-            document.createElement(
-                "FORM"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-
-    /**
-     * @param {Function} fn
-     */
-    submit(fn)
-    {
-        this.getElement().addEventListener("submit", function (event) {
-            let returnCallback = fn.bind(this)(event);
-            if (returnCallback == false || typeof returnCallback == "undefined") {
-                event.preventDefault();
-            }
-            return true;
-        }.bind(this));
-    }
-
-    /**
-     * 
-     */
-    getInvalidElements()
-    {
-        return this.invalidElements;
-    }
-
-    /**
-     * 
-     */
-    validate(fn)
-    {
-        let elements = this.getFormElements();
-        this.invalidElements = new Array;
-        if (elements.length > 0) {
-            for (let item of elements) {
-                if (item.val() == "") {
-                    this.invalidElements.push(
-                        item
-                    );
-                }
-            }
-            if (this.invalidElements.length == 0) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * 
-     */
-    getFormElements()
-    {
-        let northwindElements = new Array;
-        let elements = this.getElement().elements;
-        for (let item of elements) {
-            let aux = new ElementAdapter(item);
-            let element = aux.get();
-            if (element != false) {
-                northwindElements.push(
-                    element
-                );
-            }
-        }
-        return northwindElements;
-    }
-
-    /**
-     * 
-     */
-    setAutoComplete(data)
-    {
-        if (data) {
-            this.attr("autocomplete", "on");
-        } else {
-            this.attr("autocomplete", "off");
-        }
-        return this;
-    }
-
-    /**
-     * 
-     */
-    getAutoComplete()
-    {
-        return this.attr("autocomplete");
-    }
-}
- 
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class H1 extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "H1"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class H2 extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "H2"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class H3 extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "H3"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class H4 extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "H4"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class H5 extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "H5"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class H6 extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "BR"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Head extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "HEAD"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Header extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "HEADER"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- * [Input description]
- * @type 
- */
-class Hidden extends Input
-{
-    constructor(args = {})
-    {
-        super();
-        this.setHidden();
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Hr extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "HR"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class I extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "I"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Iframe extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "IFRAME"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Img extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "IMG"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-
-    width(width)
-    {
-        this.getElement().style.width = width;
-        return this;
-    }
-
-    height(height)
-    {
-        this.getElement().style.width = height;
-        return this;
-    }
-
-    src(src)
-    {
-        this.attr("src", src);
-        return this;
-    }
-}
-/**
- * 
- * @type 
- */
-class Input extends FormTag
-{
-    static get NUMBERS() { return 0; }
-    static get TEXT() { return 1; }
-    static get NO_SPECIAL_CHARACTERS() { return 2; }
-    static get TEXT_NO_SPECIAL_CHARACTERS() { return 3; }
-    static get NUMBERS_NO_SPECIAL_CHARACTERS() { return 4; }
-
-    /**
-     * 
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "INPUT"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-    
-    /**
-     * [type description]
-     * @param   type [description]
-     * @return       [description]
-     */
-    type(type)
-    {
-        this.attr("type", type);
-        return this;
-    }
-
-    /**
-     *
-     */
-    setText()
-    {
-        this.attr("type", "text");
-        return this;
-    }
-
-    /**
-     *
-     */
-    setHidden()
-    {
-        this.attr("type", "hidden");
-        return this;
-    }
-
-    /**
-     *
-     */
-    setNumber()
-    {
-        this.attr("type", "number");
-        return this;
-    }
-
-    /**
-     *
-     */
-    setDate()
-    {
-        this.attr("type", "number");
-        return this;
-    }
-
-    /**
-     *
-     */
-    setFile()
-    {
-        this.attr("type", "file");
-        return this;
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Ins extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "INS"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Kbd extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "KBD"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Keygen extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "KEYGEN"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Label extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "LABEL"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Leyend extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "LEYEND"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Li extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "LI"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Link extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "LINK"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Main extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "MAIN"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Map extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "MAP"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Menu extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "MENU"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Menuitem extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "MENUITEM"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Meta extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "META"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Meter extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "METER"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Nav extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "NAV"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Noscrip extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "NOSCRIP"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Obj extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "OBJ"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Ol extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "OL"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Optgroup extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "OPTGROUP"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
- 
-
-/**
- *
- * @type
- */
-class Option extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "OPTION"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-
-    setValue(val)
-    {
-        this.attr("value", val);
-        return this;
-    }
-
-    /**
-     *
-     */
-    getValue()
-    {
-        return this.attr("value");
-    }
-
-    /**
-     *
-     */
-    setContent(content)
-    {
-        this.append(content);
-        return this;
-    }
-
-    /**
-     *
-     */
-    getContent()
-    {
-        return this.getElement().text;
-    }
-}
-
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Output extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "OUTPUT"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class P extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "P"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Param extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "PARAM"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Pre extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "PRE"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Progress extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "PROGRESS"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Q extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "Q"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Rp extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "RP"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Rt extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "RT"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Ruby extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "RUBY"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class S extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "BR"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Samp extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "SAMP"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Script extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "SCRIPT"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Section extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "SECTION"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-class Select extends FormTag
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.choose = "Choose...";
-        this.setElement(
-            document.createElement(
-                "SELECT"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-
-    /**
-     *
-     */
-    getSelected()
-    {
-        var option = new Option();
-        option.setElement(
-            this.getElement().options[
-                this.getElement().selectedIndex
-            ]
-        );
-        return option;
-    }
-
-    /**
-     * 
-     * @param fn 
-     */
-    iterate(fn) {
-        var childs = this.getChilds();
-        for (var key in childs) {
-            fn(childs[key]);
-        }
-        return this;
-    }
-
-    /**
-     *
-     */
-    setChoose(choose)
-    {
-        this.choose = choose;
-    }
-
-    /**
-     *
-     */
-    select(value)
-    {
-        var childs = this.getElement().childNodes;
-        for (var key in childs) {
-            if (childs[key].value == value) {
-                childs[key].setAttribute("selected", "selected");
-            }
-        }
-    }
-
-    /**
-     *
-     * @param  content
-     * @return
-     */
-    build(content, fields)
-    {
-        if (content instanceof StaticModel) {
-            content = JSON.parse(content.getData());
-        }
-
-        var i = 0;
-        for (let key in content) {
-
-            let option = new Option();
-
-            let id = content[key][fields[0]];
-            if (id === "") {
-                id = content[key][fields[1]];
-            }
-
-            option.attr({
-                "value" : id
-            });
-            option.append(
-                content[key][fields[1]]
-            );
-
-            this.append([
-                option
-            ]);
-
-            i++;
-        }
-
-        return this;
-    }
-}
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Small extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "small"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Source extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "SOURCE"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Span extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "SPAN"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Strong extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "STRONG"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Style extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "STYLE"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Sub extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "SUB"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Summary extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "SUMMARY"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Sup extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "SUP"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-/**
- * [Table description]
- * @type 
- */
-class Table extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "BR"
-            )
-        );
-        this.setDi(new Service);
-        
-        this.thead = new Thead();
-        this.tbody = new Tbody();
-        this.tfoot = new Tfoot();
-
-        this.initialize(args);
-    }
-
-    /**
-     *
-     */
-    getThead()
-    {
-        return this.thead;
-    }
-
-    /**
-     *
-     */
-    getTbody()
-    {
-        return this.tbody;
-    }
-
-    /**
-     *
-     */
-    toHead(component)
-    {
-        this.thead.append(
-            component
-        );
-        this.append(
-            this.thead
-        );
-        return this;
-    }
-
-    /**
-     *
-     */
-    toHeadTr(component)
-    {
-        let tr = new Tr();
-        tr.append(component);
-
-        this.thead.append(
-            tr
-        );
-
-        this.append(
-            this.thead
-        );
-
-        return this;
-    }
-
-    /**
-     *
-     */
-    toBody(component)
-    {
-        this.tbody.append(
-            component
-        );
-
-        this.append(
-            this.tbody
-        );
-
-        return this;
-    }
-
-    /**
-     *
-     */
-    toFoot(component)
-    {
-        this.tfoot.append(
-            component
-        );
-
-        this.append(
-            this.tfoot
-        );
-
-        return this;
-    }
-
-    /**
-     *
-     */
-    toBodyTr(component)
-    {
-        let tr = new Tr();
-        tr.append(component);
-
-        this.tbody.append(
-            tr
-        );
-
-        this.append(
-            this.tbody
-        );
-
-        return this;
-    }
-
-    /**
-     *
-     */
-    toFootTr(component)
-    {
-        let tr = new Tr();
-        tr.append(component);
-
-        this.tfoot.append(
-            tr
-        );
-
-        this.append(
-            this.tfoot
-        );
-
-        return this;
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Tbody extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "TBODY"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Td extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "TD"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-
-    /**
-     * @param   num [description]
-     
-     */
-    colspan(cols)
-    {
-        this.attr({
-            "colspan" : cols
-        });
-        return this;
-    }
-
-    /**
-     * @param   row [description]
-     
-     */
-    rowspan(rows)
-    {
-        this.attr({
-            "rowspan" : rows
-        });
-        return this;
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Textarea extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "TEXTAREA"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Tfoot extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "TFOOT"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Th extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "TH"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-
-    /*
-        *
-        * @param   num [description]
-        
-        */
-    colspan(cols) {
-        this.attr({
-            "colspan" : cols
-        });
-        return this;
-    }
-
-    /**
-     *
-     * @param   row [description]
-     
-     */
-    rowspan(rows) {
-        this.attr({
-            "rowspan" : rows
-        });
-        return this;
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Thead extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "THEAD"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Time extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "TIME"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Title extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "TITLE"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Tr extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "TR"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
- /**
- * [ViewElement description]
- * @type 
- */
-class Track extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "TRACK"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
- /**
- * [ViewElement description]
- * @type 
- */
-class U extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "U"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Ul extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "UL"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Var extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "VAR"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
-/**
- * [ViewElement description]
- * @type 
- */
-class Video extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "VIDEO"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-/**
- * [ViewElement description]
- * @type 
- */
-class Wbr extends HtmlElement
-{
-    /**
-     *
-     */
-    constructor(args = {})
-    {
-        super();
-        this.setElement(
-            document.createElement(
-                "SELECT"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
-    }
-}
-
 
 class HtmlElement
 {
@@ -6002,6 +2969,3224 @@ class HtmlElement
         return this.di;
     }
 }
+/**
+ *
+ */
+class A extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args = {})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "A"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+
+    /**
+     * [favIcon description]
+     * @return  [description]
+     */
+    favIcon(favIcon) {
+        let icon = new I()
+        .class(favIcon);
+        this.append(
+            icon.getElement()
+        );
+        return this;
+    }
+
+    /**
+     * [href description]
+     * @param   href [description]
+     * @return       [description]
+     */
+    href(href) {
+        this.attr("href", href);
+        return this;
+    }
+}
+class Abbr extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args = {})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "ABBR"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+class Address extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args = {})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "ADDRESS"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+class Area extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args = {})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "AREA"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Article extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args = {})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "ARTICLE"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Aside extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args = {})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "DB"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Audio extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args = {})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "DB"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class B extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args = {})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "B"
+            )
+        );
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Base extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args = {})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "BASE"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+     }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Bdi extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args = {})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "BDI"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Bdo extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args = {})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "BDO"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Blockquote extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args = {})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "BLOCKQUOTE"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Body extends HtmlElement
+{
+    constructor(args = {})
+    {
+        super();
+        this.setElement(document.body);
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+ 
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Br extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args = {})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "BR"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+/**
+ *
+ */
+class Button extends HtmlElement
+{
+
+    /**
+     *
+     */
+    constructor(args = {})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "BUTTON"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+
+    /**
+     *
+     * @param
+     * @return
+     */
+    type(type) {
+        this.attr("type", type);
+        return this;
+    }
+
+    /**
+     *
+     * @return
+     */
+    favIcon(favIcon)
+    {
+        let icon = new I()
+        .class(favIcon);
+        this.append(icon);
+        return this;
+    }
+
+    /**
+     *
+     * @return
+     */
+    success()
+    {
+        this.addClass("btn btn-success");
+        return this;
+    }
+
+    /**
+     *
+     * @return
+     */
+    notice()
+    {
+        this.addClass("btn btn-notice");
+        return this;
+    }
+
+    /**
+     *
+     * @return
+     */
+    default()
+    {
+        this.addClass("btn btn-default");
+        return this;
+    }
+
+    /**
+     *
+     * @return
+     */
+    primary()
+    {
+        this.addClass("btn btn-primary");
+        return this;
+    }
+
+    /**
+     * [warning description]
+     * @return  [description]
+     */
+    warning()
+    {
+        this.addClass("btn btn-warning");
+        return this;
+    }
+
+    /**
+     * [danger description]
+     * @return  [description]
+     */
+    danger()
+    {
+        this.addClass("btn btn-danger");
+        return this;
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Canvas extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "CANVAS"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Caption extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "CAPTION"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Cite extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "CITE"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Code extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "CODE"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+ 
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Col extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "COL"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class ColGroup extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "COLGROUP"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Datalist extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "DATALIST"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Db extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "DB"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Del extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "BR"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Details extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "DETAILS"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Dfn extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "DFN"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Dialog extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "DIALOG"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Div extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "DIV"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Dl extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "DL"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Dt extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "DT"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Em extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "EM"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Embed extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "EMBED"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Fieldset extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "FIELDSET"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Figcaption extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "FIGCAPTION"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Figure extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "FIGURE"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Footer extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "FOOTER"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+/**
+ * 
+ * @type 
+ */
+class Form extends HtmlElement
+{
+    /**
+     * 
+     */
+    constructor(args={})
+    {
+        super();
+        this.invalidElements = new Array;
+        this.setElement(
+            document.createElement(
+                "FORM"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+
+    /**
+     * @param {Function} fn
+     */
+    submit(fn)
+    {
+        this.getElement().addEventListener("submit", function (event) {
+            let returnCallback = fn.bind(this)(event);
+            if (returnCallback == false || typeof returnCallback == "undefined") {
+                event.preventDefault();
+            }
+            return true;
+        }.bind(this));
+    }
+
+    /**
+     * 
+     */
+    getInvalidElements()
+    {
+        return this.invalidElements;
+    }
+
+    /**
+     * 
+     */
+    validate(fn)
+    {
+        let elements = this.getFormElements();
+        this.invalidElements = new Array;
+        if (elements.length > 0) {
+            for (let item of elements) {
+                if (item.val() == "") {
+                    this.invalidElements.push(
+                        item
+                    );
+                }
+            }
+            if (this.invalidElements.length == 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 
+     */
+    getFormElements()
+    {
+        let northwindElements = new Array;
+        let elements = this.getElement().elements;
+        for (let item of elements) {
+            let aux = new ElementAdapter(item);
+            let element = aux.get();
+            if (element != false) {
+                northwindElements.push(
+                    element
+                );
+            }
+        }
+        return northwindElements;
+    }
+
+    /**
+     * 
+     */
+    setAutoComplete(data)
+    {
+        if (data) {
+            this.attr("autocomplete", "on");
+        } else {
+            this.attr("autocomplete", "off");
+        }
+        return this;
+    }
+
+    /**
+     * 
+     */
+    getAutoComplete()
+    {
+        return this.attr("autocomplete");
+    }
+}
+ 
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class H1 extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "H1"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class H2 extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "H2"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class H3 extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "H3"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class H4 extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "H4"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class H5 extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "H5"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class H6 extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "BR"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Head extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "HEAD"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Header extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "HEADER"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+class FormTag extends HtmlElement
+{
+    /**
+     * Set form element property readonly
+     * @param {Boolean} readOnly
+     */
+    setReadOnly(readOnly)
+    {
+        this.getElement().readOnly = readOnly;
+        return this;
+    }
+
+    /**
+     * Get form read only 
+     */
+    getReadOnly()
+    {
+        return this.getElement().readOnly;
+    }
+
+    /**
+     * Set disabled
+     * @param {Boolean} disabled
+     */
+    setDisabled(disabled)
+    {
+        this.getElement().disabled = disabled;
+        return this;
+    }
+
+    getDisabled()
+    {
+        return this.getElement().disabled;
+    }
+
+    setSize(size)
+    {
+        this.attr("size", size);
+        return this;
+    }
+
+    getSize()
+    {
+        return this.attr("size");
+    }
+
+    setMaxLength(max)
+    {
+        this.attr("maxlength", max);
+        return this;
+    }
+
+    getMaxLength()
+    {
+        return this.attr("maxlength");
+    }
+
+    setAutoFocus(data)
+    {
+        this.getElement().autofocus = data;
+        return this;
+    }
+
+    getAutoFocus()
+    {
+        return this.getElement().autofocus;
+    }
+
+    setMin(min)
+    {
+        this.attr("min", min);
+        return this;
+    }
+
+    getMin()
+    {
+        return parseInt(this.attr("min"));
+    }
+
+    setMax(max)
+    {
+        this.attr("max", max);
+        return this;
+    }
+
+    getMax()
+    {
+        return parseInt(this.attr("max"));
+    }
+
+    /**
+     *
+     */
+    setAlt(alt)
+    {
+        this.attr("alt", alt);
+        return this;
+    }
+
+    /**
+     *
+     */
+    getAlt()
+    {
+        return this.attr("alt");
+    }
+
+    /**
+     *
+     */
+    setPlaceholder(placeholder)
+    {
+        this.attr("placeholder", placeholder);
+        return this;
+    }
+
+    /**
+     *
+     */
+    getPlaceholder()
+    {
+        return this.attr("placeholder");
+    }
+
+    /**
+     *
+     */
+    setTitle(title)
+    {
+        this.attr("title", title);
+        return this;
+    }
+
+    /**
+     *
+     */
+    getTitle()
+    {
+        return this.attr("title");
+    }
+
+    /**
+     *
+     */
+    setPattern(pattern)
+    {
+        switch (pattern) {
+            case Input.NUMBERS:
+                this.attr("pattern", "[0-9]");
+                break;
+            case Input.TEXT:
+                this.attr("pattern", "[A-Za-z]{3}");
+                break;
+            case Input.NO_SPECIAL_CHARACTERS:
+                this.attr("pattern", "{3}");
+                break;
+            case Input.NUMBERS_NO_SPECIAL_CHARACTERS:
+                this.attr("pattern", "[0-9]{3}");
+                break;
+            case Input.TEXT_NO_SPECIAL_CHARACTERS:
+                this.attr("pattern", "[A-Za-z]{3}");
+                break;
+            default:
+                this.attr("pattern", pattern);
+                break;
+        }
+        return this;
+    }
+
+    /**
+     *
+     */
+    getPattern()
+    {
+        return this.attr("pattern");
+    }
+
+    /**
+     *
+     */
+    setName(name)
+    {
+        this.attr("name", name);
+        return this;
+    }
+
+    /**
+     *
+     */
+    getName()
+    {
+        return this.attr("name");
+    }
+
+    /**
+     *
+     */
+    setStep(num)
+    {
+        this.attr("step", num);
+        return this;
+    }
+
+    /**
+     *
+     */
+    getStep()
+    {
+        return this.attr("step");
+    }
+
+    /**
+     *
+     */
+    validate(fn = false)
+    {
+        if (this.val() == "" || typeof this.val() == "undefined") {
+            return false;
+        }
+    }
+
+    isChecked()
+    {
+        return this.getElement().checked;
+    }
+
+    check()
+    {
+        this.getElement().checked = true;
+        return this;
+    }
+
+    unCheck()
+    {
+        this.getElement().checked = false;
+        return this;
+    }
+}
+/**
+ * 
+ * @type 
+ */
+class Input extends FormTag
+{
+    static get NUMBERS() { return 0; }
+    static get TEXT() { return 1; }
+    static get NO_SPECIAL_CHARACTERS() { return 2; }
+    static get TEXT_NO_SPECIAL_CHARACTERS() { return 3; }
+    static get NUMBERS_NO_SPECIAL_CHARACTERS() { return 4; }
+
+    /**
+     * 
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "INPUT"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+    
+    /**
+     * [type description]
+     * @param   type [description]
+     * @return       [description]
+     */
+    type(type)
+    {
+        this.attr("type", type);
+        return this;
+    }
+
+    /**
+     *
+     */
+    setText()
+    {
+        this.attr("type", "text");
+        return this;
+    }
+
+    /**
+     *
+     */
+    setHidden()
+    {
+        this.attr("type", "hidden");
+        return this;
+    }
+
+    /**
+     *
+     */
+    setNumber()
+    {
+        this.attr("type", "number");
+        return this;
+    }
+
+    /**
+     *
+     */
+    setDate()
+    {
+        this.attr("type", "number");
+        return this;
+    }
+
+    /**
+     *
+     */
+    setFile()
+    {
+        this.attr("type", "file");
+        return this;
+    }
+}
+
+/**
+ * [Input description]
+ * @type 
+ */
+class Hidden extends Input
+{
+    constructor(args={})
+    {
+        super();
+        this.setHidden();
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Hr extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "HR"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class I extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "I"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Iframe extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "IFRAME"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Img extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "IMG"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+
+    width(width)
+    {
+        this.getElement().style.width = width;
+        return this;
+    }
+
+    height(height)
+    {
+        this.getElement().style.width = height;
+        return this;
+    }
+
+    src(src)
+    {
+        this.attr("src", src);
+        return this;
+    }
+}
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Ins extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "INS"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Kbd extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "KBD"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Keygen extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "KEYGEN"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Label extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "LABEL"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Leyend extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "LEYEND"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Li extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "LI"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Link extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "LINK"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Main extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "MAIN"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Map extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "MAP"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Menu extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "MENU"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Menuitem extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "MENUITEM"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Meta extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "META"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Meter extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "METER"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Nav extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "NAV"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Noscrip extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "NOSCRIP"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Obj extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "OBJ"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Ol extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "OL"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Optgroup extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "OPTGROUP"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+ 
+
+/**
+ *
+ * @type
+ */
+class Option extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "OPTION"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+
+    setValue(val)
+    {
+        this.attr("value", val);
+        return this;
+    }
+
+    /**
+     *
+     */
+    getValue()
+    {
+        return this.attr("value");
+    }
+
+    /**
+     *
+     */
+    setContent(content)
+    {
+        this.append(content);
+        return this;
+    }
+
+    /**
+     *
+     */
+    getContent()
+    {
+        return this.getElement().text;
+    }
+}
+
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Output extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "OUTPUT"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class P extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "P"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Param extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "PARAM"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Pre extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "PRE"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Progress extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "PROGRESS"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Q extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "Q"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Rp extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "RP"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Rt extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "RT"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Ruby extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "RUBY"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class S extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "BR"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Samp extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "SAMP"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Script extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "SCRIPT"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Section extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "SECTION"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+class Select extends FormTag
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.choose = "Choose...";
+        this.setElement(
+            document.createElement(
+                "SELECT"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+
+    /**
+     *
+     */
+    getSelected()
+    {
+        var option = new Option();
+        option.setElement(
+            this.getElement().options[
+                this.getElement().selectedIndex
+            ]
+        );
+        return option;
+    }
+
+    /**
+     * 
+     * @param fn 
+     */
+    iterate(fn) {
+        var childs = this.getChilds();
+        for (var key in childs) {
+            fn(childs[key]);
+        }
+        return this;
+    }
+
+    /**
+     *
+     */
+    setChoose(choose)
+    {
+        this.choose = choose;
+    }
+
+    /**
+     *
+     */
+    select(value)
+    {
+        var childs = this.getElement().childNodes;
+        for (var key in childs) {
+            if (childs[key].value == value) {
+                childs[key].setAttribute("selected", "selected");
+            }
+        }
+    }
+
+    /**
+     *
+     * @param  content
+     * @return
+     */
+    build(content, fields)
+    {
+        if (content instanceof StaticModel) {
+            content = JSON.parse(content.getData());
+        }
+
+        var i = 0;
+        for (let key in content) {
+
+            let option = new Option();
+
+            let id = content[key][fields[0]];
+            if (id === "") {
+                id = content[key][fields[1]];
+            }
+
+            option.attr({
+                "value" : id
+            });
+            option.append(
+                content[key][fields[1]]
+            );
+
+            this.append([
+                option
+            ]);
+
+            i++;
+        }
+
+        return this;
+    }
+}
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Small extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "small"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Source extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "SOURCE"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Span extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "SPAN"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Strong extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "STRONG"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Style extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "STYLE"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Sub extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "SUB"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Summary extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "SUMMARY"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Sup extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "SUP"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+/**
+ * [Table description]
+ * @type 
+ */
+class Table extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "BR"
+            )
+        );
+        this.setDi(new Service);
+        
+        this.thead = new Thead();
+        this.tbody = new Tbody();
+        this.tfoot = new Tfoot();
+
+        this.initialize(args);
+    }
+
+    /**
+     *
+     */
+    getThead()
+    {
+        return this.thead;
+    }
+
+    /**
+     *
+     */
+    getTbody()
+    {
+        return this.tbody;
+    }
+
+    /**
+     *
+     */
+    toHead(component)
+    {
+        this.thead.append(
+            component
+        );
+        this.append(
+            this.thead
+        );
+        return this;
+    }
+
+    /**
+     *
+     */
+    toHeadTr(component)
+    {
+        let tr = new Tr();
+        tr.append(component);
+
+        this.thead.append(
+            tr
+        );
+
+        this.append(
+            this.thead
+        );
+
+        return this;
+    }
+
+    /**
+     *
+     */
+    toBody(component)
+    {
+        this.tbody.append(
+            component
+        );
+
+        this.append(
+            this.tbody
+        );
+
+        return this;
+    }
+
+    /**
+     *
+     */
+    toFoot(component)
+    {
+        this.tfoot.append(
+            component
+        );
+
+        this.append(
+            this.tfoot
+        );
+
+        return this;
+    }
+
+    /**
+     *
+     */
+    toBodyTr(component)
+    {
+        let tr = new Tr();
+        tr.append(component);
+
+        this.tbody.append(
+            tr
+        );
+
+        this.append(
+            this.tbody
+        );
+
+        return this;
+    }
+
+    /**
+     *
+     */
+    toFootTr(component)
+    {
+        let tr = new Tr();
+        tr.append(component);
+
+        this.tfoot.append(
+            tr
+        );
+
+        this.append(
+            this.tfoot
+        );
+
+        return this;
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Tbody extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "TBODY"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Td extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "TD"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+
+    /**
+     * @param   num [description]
+     
+     */
+    colspan(cols)
+    {
+        this.attr({
+            "colspan" : cols
+        });
+        return this;
+    }
+
+    /**
+     * @param   row [description]
+     
+     */
+    rowspan(rows)
+    {
+        this.attr({
+            "rowspan" : rows
+        });
+        return this;
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Textarea extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "TEXTAREA"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Tfoot extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "TFOOT"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Th extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "TH"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+
+    /*
+        *
+        * @param   num [description]
+        
+        */
+    colspan(cols) {
+        this.attr({
+            "colspan" : cols
+        });
+        return this;
+    }
+
+    /**
+     *
+     * @param   row [description]
+     
+     */
+    rowspan(rows) {
+        this.attr({
+            "rowspan" : rows
+        });
+        return this;
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Thead extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "THEAD"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Time extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "TIME"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Title extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "TITLE"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Tr extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "TR"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+ /**
+ * [ViewElement description]
+ * @type 
+ */
+class Track extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "TRACK"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+ /**
+ * [ViewElement description]
+ * @type 
+ */
+class U extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "U"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Ul extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "UL"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Var extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "VAR"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Video extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "VIDEO"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
+/**
+ * [ViewElement description]
+ * @type 
+ */
+class Wbr extends HtmlElement
+{
+    /**
+     *
+     */
+    constructor(args={})
+    {
+        super();
+        this.setElement(
+            document.createElement(
+                "SELECT"
+            )
+        );
+        this.setDi(new Service);
+        this.initialize(args);
+    }
+}
 class ViewModel
 {
     /**
@@ -6057,7 +6242,6 @@ class ViewModel
         return this.data[key];
     }
 }
-
 class Controller
 {
     /**
@@ -6114,6 +6298,13 @@ class Controller
     {
         this.di = di;
     }
+}
+class Component extends Controller
+{
+	constructor(context = false)
+	{
+		super();
+	}
 }
 class Ajax
 {
@@ -7334,6 +7525,7 @@ class Hydrator
     }
 }
 
+/*
 class Sort
 {
     static get ASC() { return 1; }
@@ -7371,7 +7563,7 @@ class Sort
         return result;
     }
 }
-
+*/
 
 class UnitOfWork
 {
@@ -7694,7 +7886,7 @@ class ResolveController
                 case "function":
                     if (!ArrayHelper.inArray(Restricted.get(), key)) {
                         let ifExist = document.getElementById(key);
-                        if (ifExist != null) {
+                        if (ifExist != null) {
                             if (typeof ifExist.nodeType != "undefined") {
                                 controller[key](new ViewModel);
                             }
@@ -7741,7 +7933,7 @@ class ResolvePaths
      */
     resolve()
     {
-        for (let key in this.paths) {
+        for (let key in this.paths) {
             this.di.get("url").set(
                 key,
                 this.paths[key]

@@ -3,9 +3,4 @@ class ComparisonOperators {
     static get OR() { return "||"; }
     static get EQUAL() { return "=="; }
     static get DIFFERENT() { return "!="; }
-
-    constructor()
-    {
-
-    }
 }

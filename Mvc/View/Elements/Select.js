@@ -3,7 +3,7 @@ class Select extends FormTag
     /**
      *
      */
-    constructor(args = {})
+    constructor(args={})
     {
         super();
         this.choose = "Choose...";

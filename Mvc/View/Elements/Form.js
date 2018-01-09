@@ -7,7 +7,7 @@ class Form extends HtmlElement
     /**
      * 
      */
-    constructor(args = {})
+    constructor(args={})
     {
         super();
         this.invalidElements = new Array;

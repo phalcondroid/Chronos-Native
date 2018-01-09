@@ -11,7 +11,7 @@ class Embed extends HtmlElement
     /**
      *
      */
-    constructor(args = {})
+    constructor(args={})
     {
         super();
         this.setElement(

@@ -1,5 +1,5 @@
 
-class Sort
+class QSort
 {
     static get ASC() { return 1; }
     static get DESC() { return -1; }

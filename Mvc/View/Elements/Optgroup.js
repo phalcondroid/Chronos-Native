@@ -10,7 +10,7 @@ class Optgroup extends HtmlElement
     /**
      *
      */
-    constructor(args = {})
+    constructor(args={})
     {
         super();
         this.setElement(

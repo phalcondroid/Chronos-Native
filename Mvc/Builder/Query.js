@@ -113,7 +113,7 @@ class Query
     {
         switch (typeof this.sort) {
             case DataType.STRING_TYPE:
-                    results = Sort.sortByField(
+                    results = QSort.sortByField(
                         results,
                         this.sort
                     );
@@ -122,7 +122,7 @@ class Query
                     if (this.sort instanceof Array) {
                         for (let sortKey in this.sort) {
                             let sortValue = this.sort[sortKey];
-                            results = Sort.sortByField(
+                            results = QSort.sortByField(
                                 results,
                                 sortValue
                             );
@@ -130,11 +130,11 @@ class Query
                     } else {
                         for (let sortKey in this.sort) {
                             let sortType = this.sort[sortKey];
-                            results = Sort.sortByField(
+                            results = QSort.sortByField(
                                 results,
                                 sortKey
                             );
-                            if (this.sort[sortKey] == Sort.DESC) {
+                            if (this.sort[sortKey] == QSort.DESC) {
                                 results = results.reverse();
                             }
                         }

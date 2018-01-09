@@ -10,7 +10,7 @@ class H1 extends HtmlElement
     /**
      *
      */
-    constructor(args = {})
+    constructor(args={})
     {
         super();
         this.setElement(

@@ -10,7 +10,7 @@ class H6 extends HtmlElement
     /**
      *
      */
-    constructor(args = {})
+    constructor(args={})
     {
         super();
         this.setElement(
