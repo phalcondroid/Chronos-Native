@@ -1,4 +1,4 @@
-class DataType {
+class PersistenceDataType {
     static get BOOLEAN() { return 1; }
     static get INTEGER() { return 2; }
     static get STRING() { return 3; }

@@ -4,7 +4,7 @@
  */
 class Hidden extends Input
 {
-    constructor(args={})
+    constructor(element = undefined)
     {
         super();
         this.setHidden();

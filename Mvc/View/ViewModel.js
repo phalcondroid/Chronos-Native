@@ -9,43 +9,9 @@ class ViewModel
         this.data = {};
     }
 
-    /**
-     * 
-     * @param elements 
-     */
-    resolveViews()
+    set(key, value)
     {
-        if (Array.isArray(this.views)) {
-            for (let instance of this.views) {
-                instance.set(this.data);
-                instance.initialize();
-            }
-        } else {
-            if (this.views instanceof HtmlElement) {
-                console.log("2", this.data);
-                this.views.set(this.data);
-                this.views.initialize();
-            }
-        }
-    }
-
-    set(data)
-    {
-        if (typeof data != "object") {
-            throw "Data passed to view model must be an object with key, value"
-        }
-        this.data = data;
-        this.resolveViews();
-    }
-
-    setElements(views)
-    {
-        this.views = views;
-    }
-
-    getElements()
-    {
-        return this.views;
+        this.data[key] = value;
     }
 
     get(key)

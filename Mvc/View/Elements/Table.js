@@ -7,15 +7,17 @@ class Table extends HtmlElement
     /**
      *
      */
-    constructor(args={})
+    constructor(element = undefined)
     {
         super();
-        this.setElement(
-            document.createElement(
-                "BR"
-            )
-        );
-        this.setDi(new Service);
+        if (typeof element == "undefined") {
+            this.setElement(
+                document.createElement(
+                    "TABLE"
+                )
+            );
+            this.initialize();
+        }
         
         this.thead = new Thead();
         this.tbody = new Tbody();

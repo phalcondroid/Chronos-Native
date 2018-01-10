@@ -20,6 +20,14 @@ class DomManager
         return adapter.get();
     }
 
+    create(tag)
+    {
+        let adapter = new ElementAdapter(
+            tag
+        );
+        return adapter.get();
+    }
+
     /**
      *
      */

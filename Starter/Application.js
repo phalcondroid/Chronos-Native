@@ -6,8 +6,8 @@ class Application
     constructor(config)
     {
         this.config = config;
-        this.fetchDi();
-        window.onbeforeunload = function () {
+        this.initializeDependencyInjector();
+        window.initializeDependencyInjector = function () {
             sessionStorage.clear();
         }
     }
@@ -15,10 +15,21 @@ class Application
     /**
      * 
      */
-    fetchDi()
+    initializeDependencyInjector()
     {
-        let injector = new InitializeComponents();
-        injector.inject();
+        let initializer = new Initializer();
+        initializer.inject();
+    }
+
+    setPaths()
+    {
+        for (let key in this.config.paths) {
+            let item = this.config.paths[key];
+            Di.get("url").set(
+                key,
+                item
+            );
+        }
     }
 
     /**
@@ -26,9 +37,7 @@ class Application
      */
     start()
     {
-        this.fetchDi();
-        let starter = new Starter;
-        starter.setConfig(this.config);
-        starter.start();
+        let handler = new Handler;
+        handler.handle();
     }
 }

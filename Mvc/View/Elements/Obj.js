@@ -7,15 +7,16 @@ class Obj extends HtmlElement
     /**
      *
      */
-    constructor(args={})
+    constructor(element = undefined)
     {
         super();
-        this.setElement(
-            document.createElement(
-                "OBJ"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
+        if (typeof element == "undefined") {
+            this.setElement(
+                document.createElement(
+                    "OBJECT"
+                )
+            );
+            this.initialize();
+        }
     }
 }

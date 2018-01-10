@@ -10,16 +10,17 @@ class Img extends HtmlElement
     /**
      *
      */
-    constructor(args={})
+    constructor(element = undefined)
     {
         super();
-        this.setElement(
-            document.createElement(
-                "IMG"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
+        if (typeof element == "undefined") {
+            this.setElement(
+                document.createElement(
+                    "IMG"
+                )
+            );
+            this.initialize();
+        }
     }
 
     width(width)

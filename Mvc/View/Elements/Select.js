@@ -3,17 +3,18 @@ class Select extends FormTag
     /**
      *
      */
-    constructor(args={})
+    constructor(element = undefined)
     {
         super();
         this.choose = "Choose...";
-        this.setElement(
-            document.createElement(
-                "SELECT"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
+        if (typeof element == "undefined") {
+            this.setElement(
+                document.createElement(
+                    "SELECT"
+                )
+            );
+            this.initialize();
+        }
     }
 
     /**

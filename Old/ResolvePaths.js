@@ -1,4 +1,3 @@
-
 class ResolvePaths
 {
     /**
@@ -16,7 +15,7 @@ class ResolvePaths
      */
     resolve()
     {
-        for (let key in this.paths) {
+        for (let key in this.paths) {
             this.di.get("url").set(
                 key,
                 this.paths[key]

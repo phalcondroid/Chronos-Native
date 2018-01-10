@@ -10,15 +10,16 @@ class Figcaption extends HtmlElement
     /**
      *
      */
-    constructor(args={})
+    constructor(element = undefined)
     {
         super();
-        this.setElement(
-            document.createElement(
-                "FIGCAPTION"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
+        if (typeof element == "undefined") {
+            this.setElement(
+                document.createElement(
+                    "FIGCAPTION"
+                )
+            );
+            this.initialize();
+        }
     }
 }

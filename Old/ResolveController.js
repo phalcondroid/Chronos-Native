@@ -25,7 +25,7 @@ class ResolveController
                 case "function":
                     if (!ArrayHelper.inArray(Restricted.get(), key)) {
                         let ifExist = document.getElementById(key);
-                        if (ifExist != null) {
+                        if (ifExist != null) {
                             if (typeof ifExist.nodeType != "undefined") {
                                 controller[key](new ViewModel);
                             }

@@ -3,11 +3,97 @@
 
     </head>
     <body>
-        
+        <select chronos-init="Countries">
+
+        </select>
     </body>
-    <script src="../native.js"></script>
+
     <script>
-        let bootstrap = new Application();
-        bootstrap.start();
+        let v = undefined;
     </script>
+
+    <script src="../Di/Di.js"></script>
+    <script src="../Di/Service.js"></script>
+    <script src="../Di/Container.js"></script>
+    <script src="../Di/LocalStorage.js"></script>
+    <script src="../Di/SessionStorage.js"></script>
+    <script src="../Di/Injectable.js"></script>
+    <script src="../Url/Url.js"></script>
+    <script src="../Environment/Scope.js"></script>
+    <script src="../Environment/AppConfig.js"></script>
+    <script src="../Errors/Message.js"></script>
+    <script src="../Errors/MessageCode.js"></script>
+    <script src="../Helper/Uuid.js"></script>
+    <script src="../Helper/MathHelper.js"></script>
+    <script src="../Helper/StringHelper.js"></script>
+    <script src="../Helper/Validator.js"></script>
+    <script src="../Mvc/Builder/Transaction.js"></script>
+    <script src="../Mvc/Builder/ComparisonOperators.js"></script>
+    <script src="../Mvc/Builder/DataType.js"></script>
+    <script src="../Mvc/Builder/Group.js"></script>
+    <script src="../Mvc/Builder/Gt.js"></script>
+    <script src="../Mvc/Builder/Gte.js"></script>
+    <script src="../Mvc/Builder/In.js"></script>
+    <script src="../Mvc/Builder/Like.js"></script>
+    <script src="../Mvc/Builder/Lt.js"></script>
+    <script src="../Mvc/Builder/Lte.js"></script>
+    <script src="../Mvc/Builder/Not.js"></script>
+    <script src="../Mvc/Builder/NotIn.js"></script>
+    <script src="../Mvc/Builder/Operators.js"></script>
+    <script src="../Mvc/Builder/Or.js"></script>
+    <script src="../Mvc/Builder/QSort.js"></script>
+    <script src="../Mvc/Builder/Query.js"></script>
+    <script src="../Mvc/Model/RawModel.js"></script>
+    <script src="../Mvc/Model/StaticModel.js"></script>
+    <script src="../Mvc/Model/AjaxModel.js"></script>
+    <script src="../Mvc/Model/AjaxModelPersistent.js"></script>
+    <script src="../Mvc/Model/Deny.js"></script>
+    <script src="../Mvc/View/Adapter/ElementAdapter.js"></script>
+    <script src="../Mvc/View/Dom/ElementManager.js"></script>
+    <script src="../Mvc/View/Dom/CssManager.js"></script>
+    <script src="../Mvc/View/Dom/DomManager.js"></script>
+    <script src="../Mvc/View/Dom/EventManager.js"></script>
+    <script src="../Mvc/View/Dom/ParentManager.js"></script>
+    <script src="../Mvc/View/Wrappers/HtmlElement.js"></script>
+    <script src="../Mvc/View/Elements/forms/FormTag.js"></script>
+    <script src="../Mvc/View/Elements/Div.js"></script>
+    <script src="../Mvc/View/Elements/Select.js"></script>
+    <script src="../Mvc/View/Elements/Option.js"></script>
+    <script src="../Mvc/View/Elements/A.js"></script>
+    <script src="../Mvc/View/ViewModel.js"></script>
+    <script src="../Mvc/Controller.js"></script>
+    <script src="../Mvc/Components/Component.js"></script>
+    <script src="../Network/Ajax.js"></script>
+    <script src="../Network/MethodType.js"></script>
+    <script src="../Reflection/Checksum.js"></script>
+    <script src="../Reflection/Reflection.js"></script>
+    <script src="../Persistence/PersistenceComparisonOperators.js"></script>
+    <script src="../Persistence/DatamapperOperators.js"></script>
+    <script src="../Persistence/PersistenceDataType.js"></script>
+    <script src="../Persistence/PersistenceSort.js"></script>
+    <script src="../Persistence/UnitOfWork.js"></script>
+    <script src="../Persistence/Hydrator.js"></script>
+    <script src="../Persistence/Filter.js"></script>
+    <script src="../Persistence/EntityManager.js"></script>
+    <script src="../Starter/Restricted.js"></script>
+    
+    <!--
+    <script src="../Starter/ResolveController.js"></script>
+    <script src="../Starter/ResolvePaths.js"></script>
+    <script src="../Starter/ResolveService.js"></script>
+    -->
+    <script src="../Mvc/Dispatcher.js"></script>
+    <script src="../Starter/Initializer.js"></script>
+    <script src="../Starter/Inspector.js"></script>
+    <script src="../Starter/Handler.js"></script>
+    <script src="../Starter/Application.js"></script>
+
+    <script src="./Controllers/IndexController.js"></script>
+    <script src="./Controllers/CountriesController.js"></script>
+
+    <script src="./Views/Countries.js"></script>
+
+    <!-- Here -->
+    <script src="./Config/Config.js"></script>
+    <script src="./app.bootstrap.js"></script>
 </html>

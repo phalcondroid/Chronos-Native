@@ -21,11 +21,8 @@ class Filter
             switch (key) {
 
                 case DatamapperOperators.CONDITIONAL:
-
                     let conditional = params[key];
-
                     for (var keyConditional in conditional) {
-
                         switch (keyConditional) {
                             case DatamapperOperators.AND:
 
@@ -37,7 +34,7 @@ class Filter
                                     this.getExpression(
                                         keyAnd,
                                         andContent[keyAnd],
-                                        ComparisonOperators.AND,
+                                        PersistenceComparisonOperators.AND,
                                         iAnd,
                                         andLength
                                     );
@@ -55,7 +52,7 @@ class Filter
                                         this.getExpression(
                                             keyOr,
                                             orContent[keyOr],
-                                            ComparisonOperators.OR,
+                                            PersistenceComparisonOperators.OR,
                                             iOr,
                                             orLength
                                         );
@@ -70,10 +67,10 @@ class Filter
                                         this.getExpression(
                                             keyIsNot,
                                             isNotContent[keyIsNot],
-                                            ComparisonOperators.AND,
+                                            PersistenceComparisonOperators.AND,
                                             iIsNot,
                                             isNotLength,
-                                            ComparisonOperators.DIFFERENT
+                                            PersistenceComparisonOperators.DIFFERENT
                                         );
                                         iIsNot++;
                                     }
@@ -108,7 +105,7 @@ class Filter
                     this.getExpression(
                         key,
                         params[key],
-                        ComparisonOperators.AND,
+                        PersistenceComparisonOperators.AND,
                         index,
                         length
                     );
@@ -121,12 +118,12 @@ class Filter
     getSort(sortContent)
     {
         switch (typeof sortContent) {
-            case DataType.STRING_TYPE:
+            case PersistenceDataType.STRING_TYPE:
                     this.sort.push(
                         "data = Sort.sortByField('" + sortContent + "');"
                     );
                 break;
-            case DataType.OBJECT_TYPE:
+            case PersistenceDataType.OBJECT_TYPE:
                     if (Array.isArray(sortContent)) {
                         for (let sortKey in sortContent) {
                             let sortValue = sortContent[sortKey]
@@ -174,13 +171,13 @@ class Filter
                 if (j < (newVal.length - 1)) {
                     operatorStr = operator;
                 }
-                let valueByType = DataType.getValueByType(newVal[j]);
+                let valueByType = PersistenceDataType.getValueByType(newVal[j]);
                 condition += "row[\"" + key + "\"] " + comparison + " " + newVal[j] + " " + operatorStr + " ";
             }
 
         } else {
             let operatorStr = "";
-            let valueByType = DataType.getValueByType(content);
+            let valueByType = PersistenceDataType.getValueByType(content);
             condition += "row[\"" + key + "\"] " + comparison + " " + valueByType + " " + operatorStr + " ";
         }
         this.first += finalOperator + " ( " + condition + " ) ";

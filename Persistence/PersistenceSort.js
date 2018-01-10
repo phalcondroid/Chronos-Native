@@ -1,8 +1,8 @@
 
-class Sort
+class PersistenceSort
 {
     static get ASC() { return 1; }
-    static get DESC() { return -1; }
+    static get DESC() { return -1; }
 
     static sortByField(data, field) {
         var arr = [];

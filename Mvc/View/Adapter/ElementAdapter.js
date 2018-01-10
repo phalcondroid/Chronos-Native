@@ -5,7 +5,7 @@ class ElementAdapter
      * @param element 
      * @param tagName 
      */
-    constructor(element)
+    constructor(element = null)
     {
         this.element = element;   
     }
@@ -355,7 +355,7 @@ class ElementAdapter
                 break;
         }
         if (typeof this.element.nodeName != "undefined") {
-            instance.setElement(this.element);
+            //instance.setElement(this.element);
         }
         return instance;
     }

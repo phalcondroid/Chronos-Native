@@ -7,17 +7,18 @@ class Form extends HtmlElement
     /**
      * 
      */
-    constructor(args={})
+    constructor(element = undefined)
     {
         super();
         this.invalidElements = new Array;
-        this.setElement(
-            document.createElement(
-                "FORM"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
+        if (typeof element == "undefined") {
+            this.setElement(
+                document.createElement(
+                    "FORM"
+                )
+            );
+            this.initialize();
+        }
     }
 
     /**

@@ -10,15 +10,16 @@ class Keygen extends HtmlElement
     /**
      *
      */
-    constructor(args={})
+    constructor(element = undefined)
     {
         super();
-        this.setElement(
-            document.createElement(
-                "KEYGEN"
-            )
-        );
-        this.setDi(new Service);
-        this.initialize(args);
+        if (typeof element == "undefined") {
+            this.setElement(
+                document.createElement(
+                    "KEYGEN"
+                )
+            );
+            this.initialize();
+        }
     }
 }

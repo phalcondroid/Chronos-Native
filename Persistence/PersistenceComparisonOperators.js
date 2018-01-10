@@ -1,4 +1,4 @@
-class ComparisonOperators {
+class PersistenceComparisonOperators {
     static get AND() { return "&&"; }
     static get OR() { return "||"; }
     static get EQUAL() { return "=="; }

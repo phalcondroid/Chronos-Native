@@ -7,13 +7,16 @@ class B extends HtmlElement
     /**
      *
      */
-    constructor(args={})
+    constructor(element = undefined)
     {
         super();
-        this.setElement(
-            document.createElement(
-                "B"
-            )
-        );
+        if (typeof element == "undefined") {
+            this.setElement(
+                document.createElement(
+                    "B"
+                )
+            );
+            this.initialize();
+        }
     }
 }

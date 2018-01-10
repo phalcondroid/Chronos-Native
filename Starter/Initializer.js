@@ -1,4 +1,4 @@
-class InitializeComponents
+class Initializer
 {
     /**
      * 
@@ -21,25 +21,38 @@ class InitializeComponents
             "dom",
             new DomManager
         );
+
+        let eventManager = new EventManager;
         Di.set(
             "eventManager",
-            new EventManager
+            eventManager
         );
+
+        let ajax = new Ajax();
         Di.set(
             "ajax",
-            new Ajax
+            ajax
         );
+
+        let entityManager = new EntityManager;
         Di.set(
             "em",
-            new EntityManager
+            entityManager
         );
+
         Di.set(
             "uuid",
             new Uuid
         );
+
         Di.set(
             "url",
             new Url
+        );
+
+        Di.set(
+            "elementAdapter",
+            new ElementAdapter
         );
     }
 }

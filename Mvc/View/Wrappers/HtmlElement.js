@@ -10,12 +10,13 @@ class HtmlElement
         this.CSS_MANAGER     = "Chronos.Dom.CssManager";
         this.PARENT_MANAGER  = "Chronos.Dom.DomManager";
         this.ELEMENT_MANAGER = "Chronos.Dom.ElementManager";
+        this.di = Di;
+        this.data = new ViewModel;
 
-        let localDecorator = new Proxy(
+        return new Proxy(
             this,
             this.getValidator()
         );
-        return localDecorator;
     }
 
     initialize(args)
@@ -24,19 +25,19 @@ class HtmlElement
 
     /**
      * 
-     * @param viewModel 
+     * @param {*} viewModel 
      */
-    set(data)
+    setData(viewModel)
     {
-        this.viewModelData = data;
+        this.data = viewModel;
     }
 
     /**
      * 
      */
-    get(key)
+    getData()
     {
-        return this.viewModelData[key];
+        return this.data;
     }
 
     /**
@@ -76,7 +77,6 @@ class HtmlElement
         let em = Di.get(
             this.ELEMENT_MANAGER
         );
-        console.log(Di.getAll(), em, this.getElement());
         em.setElement(this.getElement());
         return em;
     }
@@ -115,17 +115,6 @@ class HtmlElement
     }
 
     /**
-     * [getClassName description]
-     * @return  [description]
-     */
-    getClassName()
-    {
-        let funcNameRegex = /function (.{1,})\(/;
-        let results  = (funcNameRegex).exec(this["constructor"].toString());
-        return (results && results.length > 1) ? results[1] : "";
-    }
-
-    /**
      * 
      */
     getChecksum()
@@ -136,58 +125,108 @@ class HtmlElement
         );
     }
 
+    getDom()
+    {
+        return this.getDi().get("dom");
+    }
+
     /**
      * 
      */
     getValidator()
     {
         let validator = {
-            get : function get(obj, prop) {
-                switch (prop) {
+            get : function get(target, name) {
+                switch (name) {
+                    case "dom":
+                        return this.getDi().get("dom");
                     case "append":
-                        return this.getElementManager().append;
+                        return this.getElementManager().append.bind(
+                            this.getElementManager()
+                        );
                     case "attr":
-                        return this.getElementManager().attr;
+                        return this.getElementManager().attr.bind(
+                            this.getElementManager()
+                        );
                     case "setAttribute":
-                        return this.getElementManager().setAttribute;
+                        return this.getElementManager().setAttribute.bind(
+                            this.getElementManager()
+                        );
                     case "removeAttribute":
-                        return this.getElementManager().removeAttribute;
+                        return this.getElementManager().removeAttribute.bind(
+                            this.getElementManager()
+                        );
                     case "class":
-                        return this.getElementManager().class;
+                        return this.getElementManager().class.bind(
+                            this.getElementManager()
+                        );
                     case "addClass":
-                        return this.getElementManager().addClass;
+                        return this.getElementManager().addClass.bind(
+                            this.getElementManager()
+                        );
                     case "removeClass":
-                        return this.getElementManager().removeClass;
+                        return this.getElementManager().removeClass.bind(
+                            this.getElementManager()
+                        );
                     case "setId":
-                        return this.getElementManager().setId;
+                        return this.getElementManager().setId.bind(
+                            this.getElementManager()
+                        );
                     case "getId":
-                        return this.getElementManager().getId;
+                        return this.getElementManager().getId.bind(
+                            this.getElementManager()
+                        );
                     case "setRequired":
-                        return this.getElementManager().setRequired;
+                        return this.getElementManager().setRequired.bind(
+                            this.getElementManager()
+                        );
                     case "getRequired":
-                        return this.getElementManager().getRequired;
+                        return this.getElementManager().getRequired.bind(
+                            this.getElementManager()
+                        );
                     case "html":
-                        return this.getElementManager().html;
+                        return this.getElementManager().html.bind(
+                            this.getElementManager()
+                        );
                     case "setHtml":
-                        return this.getElementManager().setHtml;
-                    case "setValue":
-                        return this.getElementManager().setValue;
+                        return this.getElementManager().setHtml.bind(
+                            this.getElementManager()
+                        );
+                        return this.getElementManager().setValue.bind(
+                            this.getElementManager()
+                        );
                     case "val":
-                        return this.getElementManager().val;
+                        return this.getElementManager().val.bind(
+                            this.getElementManager()
+                        );
                     case "getValue":
-                        return this.getElementManager().getValue;
+                        return this.getElementManager().getValue.bind(
+                            this.getElementManager()
+                        );
                     case "valAsInt":
-                        return this.getElementManager().valAsInt;
+                        return this.getElementManager().valAsInt.bind(
+                            this.getElementManager()
+                        );
                     case "text":
-                        return this.getElementManager().text;
+                        return this.getElementManager().text.bind(
+                            this.getElementManager()
+                        );
                     case "empty":
-                        return this.getElementManager().empty;
+                        return this.getElementManager().empty.bind(
+                            this.getElementManager()
+                        );
                     case "remove":
-                        return this.getElementManager().remove;
+                        return this.getElementManager().remove.bind(
+                            this.getElementManager()
+                        );
                     case "getAsObject":
-                        return this.getElementManager().getAsObject;
+                        return this.getElementManager().getAsObject.bind(
+                            this.getElementManager()
+                        );
                     case "getAsJson":
-                        return this.getElementManager().getAsJson;
+                        return this.getElementManager().getAsJson.bind(
+                            this.getElementManager()
+                        );
                     case "getSibilings":
                         return this.getParentManager().getSiblings;
                     case "getParent":
@@ -222,8 +261,10 @@ class HtmlElement
                         return this.getCss().css;
                     case "setStyle":
                         return this.getCss().setStyle;
+                    case "className":
+                        return target.constructor.name;
                     default:
-                        return obj[prop];
+                        return target[name];
                 }
             }.bind(this)
         };
