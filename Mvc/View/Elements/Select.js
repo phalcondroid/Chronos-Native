@@ -46,7 +46,7 @@ class Select extends FormTag
     /**
      *
      */
-    setChoose(choose)
+    addChoose(choose)
     {
         this.choose = choose;
     }
@@ -64,41 +64,19 @@ class Select extends FormTag
         }
     }
 
-    /**
-     *
-     * @param  content
-     * @return
-     */
-    build(content, fields)
+    fetch(content)
     {
-        if (content instanceof StaticModel) {
-            content = JSON.parse(content.getData());
-        }
-
-        var i = 0;
-        for (let key in content) {
-
-            let option = new Option();
-
-            let id = content[key][fields[0]];
-            if (id === "") {
-                id = content[key][fields[1]];
+        if (Array.isArray(content) || typeof content == "object") {
+            for (let key in content) {
+                this.append(
+                    new Option()
+                    .attr({
+                        "value" : key,
+                    })
+                    .html(content[key])
+                );
             }
-
-            option.attr({
-                "value" : id
-            });
-            option.append(
-                content[key][fields[1]]
-            );
-
-            this.append([
-                option
-            ]);
-
-            i++;
         }
-
         return this;
     }
 }

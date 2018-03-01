@@ -1,3 +1,6 @@
+/** 
+ * 
+ */
 class Handler
 {
     constructor()
@@ -6,7 +9,7 @@ class Handler
         this.elements = this.inspector.getElements();
     }
 
-    dispatchElement(item)
+    arrangeElement(item)
     {
         let viewInstance = eval("new " + item.getAttribute("chronos-init") + "(item)");
         viewInstance.setElement(item);
@@ -18,26 +21,42 @@ class Handler
 
         viewInstance.setData(instance.getView());
         viewInstance.initialize();
+
+        this.searchForActions(instance, viewInstance);
     }
 
-    dispatchAll()
+    searchForActions(controller, viewInstance)
+    {
+        for (let event of EventManager.getEvents()) {
+            if (typeof controller[event] == "function") {
+                viewInstance[event](controller[event]);
+            }
+        }
+    }
+
+    /** 
+     * 
+     */
+    execute()
     {
         let indexController = new IndexController;
         indexController.view = new ViewModel;
         indexController.initialize();
 
         for (let item of this.elements) {
-            this.dispatchElement(
-                item
-            );
+            this.arrangeElement(item);
         }
     }
 
+    /**
+     * 
+     * @param {*} string 
+     */
     ucfirst(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
     handle() {
-        this.dispatchAll();
+        this.execute();
     }
 }

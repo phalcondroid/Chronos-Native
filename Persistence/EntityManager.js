@@ -317,7 +317,6 @@ class EntityManager
                     type,
                     model
                 ));
-
             }.bind(this));
 
             this.ajax.send();

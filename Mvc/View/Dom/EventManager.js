@@ -8,19 +8,24 @@ class EventManager
     {
     }
 
-    setEventToElement(eventName, fn)
+    static getEvents()
     {
-        if (Array.isArray(this.element)) {
-            for (let item of this.element) {
+        return ["click", "doubleClick", "change", "keypress", "keydown", "keyup", "paste", "blur", "focus", "submit"];
+    }
+
+    setEventToElement(eventName, element, fn)
+    {
+        if (Array.isArray(element)) {
+            for (let item of element) {
                 this.element.addEventListener(
                     eventName,
-                    fn.bind(this)
+                    fn
                 );
             }
         } else {
-            this.element.addEventListener(
+            element.addEventListener(
                 eventName,
-                fn.bind(this)
+                fn
             );
         }
         return this;

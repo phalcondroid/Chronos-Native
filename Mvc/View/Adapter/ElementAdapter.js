@@ -354,8 +354,9 @@ class ElementAdapter
                 instance.create(this.element);
                 break;
         }
+
         if (typeof this.element.nodeName != "undefined") {
-            //instance.setElement(this.element);
+            instance.setElement(this.element);
         }
         return instance;
     }
