@@ -1,18 +1,22 @@
 class Application
 {
+    static get CONFIG() {
+        return "chronos.application.config";
+    }
+
     /**
      * 
      */
     constructor(config)
     {
-        this.config = config;
+        this.applyConfig(config);
         this.initializeDependencyInjector();
         window.initializeDependencyInjector = function () {
             sessionStorage.clear();
         }
     }
 
-    /**
+    /** 
      * 
      */
     initializeDependencyInjector()
@@ -21,14 +25,16 @@ class Application
         initializer.inject();
     }
 
-    setPaths()
+    /**
+     * 
+     * @param {*} config 
+     */
+    applyConfig(config)
     {
-        for (let key in this.config.paths) {
-            let item = this.config.paths[key];
-            Di.get("url").set(
-                key,
-                item
-            );
+        Di.set(Application.CONFIG, config);
+        for (let key in config.paths) {
+            let item = config.paths[key];
+            Di.get("url").set(key, item);
         }
     }
 

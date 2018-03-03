@@ -46,4 +46,12 @@ class Controller
     {
         this.viewElement = view;
     }
+
+    /**
+     * 
+     */
+    getDi()
+    {
+        return Di;
+    }
 }

@@ -20,18 +20,19 @@ class CountriesController extends Controller
 
     change()
     {
+        console.log(this);
         let div = this.getDom().getById("content");
         div.append("The texto texto");
 
-        let btn = new Button;
-        btn.append("Button");
-        btn.class("btn btn-success form-control");
-        btn.click(this.newButtonClick);
-
-        div.append(btn);
-
-        let option   = this.getSelected();
-        let oldValue = option.getContent(); 
-        option.empty().append(oldValue + " extra");
+        this.getEm()
+        .start("countries", "done")
+        .find(
+            Person
+        );
+    }
+    
+    done(response)
+    {
+        console.log("when is done");
     }
 }

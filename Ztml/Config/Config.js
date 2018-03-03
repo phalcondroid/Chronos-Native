@@ -4,7 +4,7 @@ class Config
     {
         return {
             "paths" : {
-                "base" : "http://localhost/chronos-native"
+                "baseUri" : "http://localhost/chronos-native"
             }
         };
     }

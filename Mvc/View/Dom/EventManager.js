@@ -6,6 +6,35 @@ class EventManager
      */
     constructor()
     {
+        this.components = {};
+    }
+
+    /**
+     * 
+     * @param {*} component 
+     * @param {*} eventName 
+     */
+    attach(component, eventName, fn)
+    {
+        if (!Array.isArray(this.components[component][eventName])) {
+            this.components[component][eventName] = new Array;
+        }
+        this.components[component][eventName].push(fn);
+    }
+
+    /**
+     * 
+     * @param {*} component 
+     * @param {*} eventName 
+     */
+    fire(component, eventName)
+    {
+        let eventsToFire = this.components[component][eventName];
+        if (Array.isArray(eventsToFire)) {
+            for (let item of eventsToFire) {
+                item();
+            }
+        }
     }
 
     static getEvents()
@@ -13,7 +42,13 @@ class EventManager
         return ["click", "doubleClick", "change", "keypress", "keydown", "keyup", "paste", "blur", "focus", "submit"];
     }
 
-    setEventToElement(eventName, element, fn)
+    /**
+     * 
+     * @param {*} eventName 
+     * @param {*} element 
+     * @param {*} fn 
+     */
+    setEventToElement(element, eventName, fn)
     {
         if (Array.isArray(element)) {
             for (let item of element) {

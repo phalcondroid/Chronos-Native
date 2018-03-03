@@ -2,8 +2,9 @@ class RawModel
 {
     constructor()
     {
-        this.state    = 1;
-        this.identify = Uuid.get();
+        this.state     = 1;
+        this.identify  = Uuid.get();
+        this.modelName = this.getClassName();
     }
 
     /**
@@ -13,32 +14,15 @@ class RawModel
     {
     }
 
-    /**
-     * 
-     */
-    beforeInsert()
+    setModelName(name)
     {
+        this.modelName = name;
     }
 
-    /**
-     * 
-     */
-    beforeFind()
+    
+    getModelName()
     {
-    }
-
-    /**
-     * 
-     */
-    beforeUpdate()
-    {
-    }
-
-    /**
-     * 
-     */
-    beforeDelete()
-    {
+        return this.modelName;
     }
 
     /**

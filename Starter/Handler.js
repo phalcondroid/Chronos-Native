@@ -25,11 +25,18 @@ class Handler
         this.searchForActions(instance, viewInstance);
     }
 
+    /**
+     * 
+     * @param {*} controller
+     * @param {*} viewInstance
+     */
     searchForActions(controller, viewInstance)
     {
         for (let event of EventManager.getEvents()) {
             if (typeof controller[event] == "function") {
-                viewInstance[event](controller[event]);
+                viewInstance[event].bind(controller)(
+                    controller[event]
+                );
             }
         }
     }

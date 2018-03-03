@@ -337,7 +337,7 @@ class HtmlElement
         this.getDi().get("eventManager").setEventToElement(
             "change",
             this.getElement(),
-            fn.bind(this)
+            fn
         );
         return this;
     }
@@ -750,6 +750,16 @@ class HtmlElement
     getDom()
     {
         return this.getDi().get("dom");
+    }
+
+    getEm()
+    {
+        return this.getDi().get("em");
+    }
+
+    getEventManager()
+    {
+        return this.getDi().get("eventManager");
     }
 
     /**
