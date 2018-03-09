@@ -121,16 +121,50 @@ class EntityManager
         this.model = model;
     }
 
+    /** 
+     * 
+     */
     getModel()
     {
         return this.model;
     }
 
+    /** 
+     * 
+     */
+    getDom()
+    {
+        return this.getDi().get("dom");
+    }
+
+    /** 
+     * 
+     */
+    getAjax()
+    {
+        return this.getDi().get("ajax");
+    }
+
+    /** 
+     * 
+     */
+    getEventManager()
+    {
+        return this.getDi().get("eventManager");
+    }
+    
+    /**
+     * 
+     * @param {*} di 
+     */
     setDi(di)
     {
         this.di = di;
     }
 
+    /** 
+     * 
+     */
     getDi()
     {
         return Di;

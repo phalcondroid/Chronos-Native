@@ -302,142 +302,6 @@ class HtmlElement
 
     /**
      * 
-     * @param  {Function} fn [description]
-     * @return       [description]
-     */
-    click(fn)
-    {
-        this.getDi().get("eventManager").setEventToElement(
-            "click",
-            this.getElement(),
-            fn
-        );
-        return this;
-    }
-
-    /**
-     *
-     */
-    doubleClick(fn)
-    {
-        this.getDi().get("eventManager").setEventToElement(
-            "dblclick",
-            this.getElement(),
-            fn
-        );
-        return this;
-    }
-
-    /**
-     *
-     * @return  [description]
-     */
-    change(fn)
-    {
-        this.getDi().get("eventManager").setEventToElement(
-            "change",
-            this.getElement(),
-            fn
-        );
-        return this;
-    }
-
-    /**
-     * [change description]
-     * @return  [description]
-     */
-    keypress(fn)
-    {
-        this.getDi().get("eventManager").setEventToElement(
-            "keypress",
-            this.getElement(),
-            fn
-        );
-        return this;
-    }
-
-    /**
-     * [change description]
-     * @return  [description]
-     */
-    keydown(fn)
-    {
-        this.getDi().get("eventManager").setEventToElement(
-            "keydown",
-            this.getElement(),
-            fn
-        );
-        return this;
-    }
-
-    /**
-     * [change description]
-     * @return  [description]
-     */
-    keyup(fn)
-    {
-        this.getDi().get("eventManager").setEventToElement(
-            "keyup",
-            this.getElement(),
-            fn
-        );
-        return this;
-    }
-
-    paste(fn)
-    {
-        this.getDi().get("eventManager").setEventToElement(
-            "paste",
-            this.getElement(),
-            fn
-        );
-        return this;
-    }
-
-    /**
-     * [change description]
-     * @return  [description]
-     */
-    blur(fn)
-    {
-        this.getDi().get("eventManager").setEventToElement(
-            "blur",
-            this.getElement(),
-            fn
-        );
-        return this;
-    }
-
-    /**
-     * [change description]
-     * @return  [description]
-     */
-    focus(fn)
-    {
-        this.getDi().get("eventManager").setEventToElement(
-            "focus",
-            this.getElement(),
-            fn
-        );
-        return this;
-    }
-
-    /**
-     * 
-     * @param fn
-     */
-    submit(fn)
-    {
-        this.getDi().get("eventManager").setEventToElement(
-            "submit",
-            this.getElement(),
-            fn
-        );
-        return this;
-    }
-
-    /**
-     * 
      * @param append 
      * @param type 
      */
@@ -447,9 +311,7 @@ class HtmlElement
             for (let key in this.element) {
                 if (typeof this.element[key].nodeType != "undefined") {
                     if (this.element[key].nodeType == 1) {
-                        this.element[key].appendChild(
-                            append
-                        );
+                        this.element[key].appendChild(append);
                     }
                 }
             }
@@ -747,19 +609,28 @@ class HtmlElement
         );
     }
 
+    /** 
+     * 
+     */
     getDom()
     {
         return this.getDi().get("dom");
     }
-
-    getEm()
-    {
-        return this.getDi().get("em");
-    }
-
+    
+    /** 
+     * 
+     */
     getEventManager()
     {
         return this.getDi().get("eventManager");
+    }
+
+    /**
+     * 
+     */
+    getEm()
+    {
+        return this.getDi().get("em");
     }
 
     /**

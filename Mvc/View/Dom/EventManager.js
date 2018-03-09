@@ -37,18 +37,33 @@ class EventManager
         }
     }
 
+    /**
+     * 
+     */
     static getEvents()
     {
-        return ["click", "doubleClick", "change", "keypress", "keydown", "keyup", "paste", "blur", "focus", "submit"];
+        return [
+            "click",
+            "doubleClick",
+            "change",
+            "keypress",
+            "keydown",
+            "keyup",
+            "paste",
+            "blur",
+            "focus",
+            "submit"
+        ];
     }
 
     /**
+     * 
      * 
      * @param {*} eventName 
      * @param {*} element 
      * @param {*} fn 
      */
-    setEventToElement(element, eventName, fn)
+    setEventToElement(element, eventName, fn, data = false)
     {
         if (Array.isArray(element)) {
             for (let item of element) {
@@ -60,133 +75,45 @@ class EventManager
         } else {
             element.addEventListener(
                 eventName,
-                fn
+                function () {
+                    let element = Di.get("elementAdapter").setElement(this).get();
+                    console.log("julian", data);
+                    fn.bind(data)(element)
+                }
             );
         }
         return this;
     }
 
+    /** 
+     * 
+     */
+    getEventManager()
+    {
+        return this.getDi().get("eventManager");
+    }
+    
     /**
      * 
-     * @param  {Function} fn [description]
-     * @return       [description]
      */
-    click(fn)
+    getDi()
     {
-        this.setEventToElement(
-            "click",
-            fn
-        );
-        return this;
+        return Di;
     }
 
-    /**
-     *
+    /** 
+     * 
      */
-    doubleClick(fn)
+    getDom()
     {
-        this.setEventToElement(
-            "dblclick",
-            fn
-        );
-        return this;
-    }
-
-    /**
-     *
-     * @return  [description]
-     */
-    change(fn)
-    {
-        this.setEventToElement(
-            "change",
-            fn
-        );
-        return this;
-    }
-
-    /**
-     * [change description]
-     * @return  [description]
-     */
-    keypress(fn)
-    {
-        this.setEventToElement(
-            "keypress",
-            fn
-        );
-        return this;
-    }
-
-    /**
-     * [change description]
-     * @return  [description]
-     */
-    keydown(fn) {
-        this.setEventToElement(
-            "keydown",
-            fn
-        );
-        return this;
-    }
-
-    /**
-     * [change description]
-     * @return  [description]
-     */
-    keyup(fn) {
-        this.setEventToElement(
-            "keyup",
-            fn
-        );
-        return this;
-    }
-
-    paste(fn)
-    {
-        this.setEventToElement(
-            "paste",
-            fn
-        );
-        return this;
-    }
-
-    /**
-     * [change description]
-     * @return  [description]
-     */
-    blur(fn)
-    {
-        this.setEventToElement(
-            "blur",
-            fn
-        );
-        return this;
-    }
-
-    /**
-     * [change description]
-     * @return  [description]
-     */
-    focus(fn)
-    {
-        this.setEventToElement(
-            "focus",
-            fn
-        );
-        return this;
+        return this.getDi().get("dom");
     }
 
     /**
      * 
-     * @param fn
      */
-    submit(fn)
+    getEm()
     {
-        this.setEventToElement(
-            "submit",
-            fn
-        );
-        return this;
+        return this.getDi().get("em");
     }
 }

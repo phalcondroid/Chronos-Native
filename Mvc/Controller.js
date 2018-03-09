@@ -47,6 +47,26 @@ class Controller
         this.viewElement = view;
     }
 
+    getEm()
+    {
+        return this.getDi().get("em");
+    }
+
+    getEventManager()
+    {
+        return this.getDi().get("eventManager");
+    }
+
+    getDom()
+    {
+        return this.getDi().get("dom");
+    }
+
+    getAjax()
+    {
+        return this.getDi().get("");
+    }
+
     /**
      * 
      */

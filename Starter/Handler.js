@@ -9,6 +9,10 @@ class Handler
         this.elements = this.inspector.getElements();
     }
 
+    /**
+     * 
+     * @param {*} item 
+     */
     arrangeElement(item)
     {
         let viewInstance = eval("new " + item.getAttribute("chronos-init") + "(item)");
@@ -32,10 +36,14 @@ class Handler
      */
     searchForActions(controller, viewInstance)
     {
+        let eventManager = this.getDi().get("eventManager");
         for (let event of EventManager.getEvents()) {
             if (typeof controller[event] == "function") {
-                viewInstance[event].bind(controller)(
-                    controller[event]
+                eventManager.setEventToElement(
+                    viewInstance.getElement(),
+                    event,
+                    controller[event],
+                    controller
                 );
             }
         }
@@ -65,5 +73,10 @@ class Handler
 
     handle() {
         this.execute();
+    }
+
+    getDi()
+    {
+        return Di;
     }
 }
