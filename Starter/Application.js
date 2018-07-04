@@ -9,8 +9,7 @@ class Application
      */
     constructor(config)
     {
-        this.applyConfig(config);
-        this.initializeDependencyInjector();
+        this.initializeDependencyInjector(config);
         window.initializeDependencyInjector = function () {
             sessionStorage.clear();
         }
@@ -19,24 +18,13 @@ class Application
     /** 
      * 
      */
-    initializeDependencyInjector()
+    initializeDependencyInjector(config)
     {
-        let initializer = new Initializer();
+        let initializer = new Initializer(config);
         initializer.inject();
     }
 
-    /**
-     * 
-     * @param {*} config 
-     */
-    applyConfig(config)
-    {
-        Di.set(Application.CONFIG, config);
-        for (let key in config.paths) {
-            let item = config.paths[key];
-            Di.get("url").set(key, item);
-        }
-    }
+    
 
     /**
      * 

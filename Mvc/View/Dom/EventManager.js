@@ -16,6 +16,9 @@ class EventManager
      */
     attach(component, eventName, fn)
     {
+        if (!Array.isArray(this.components[component])) {
+            this.components[component] = new Array;
+        }
         if (!Array.isArray(this.components[component][eventName])) {
             this.components[component][eventName] = new Array;
         }
@@ -27,12 +30,12 @@ class EventManager
      * @param {*} component 
      * @param {*} eventName 
      */
-    fire(component, eventName)
+    fire(component, eventName, params)
     {
         let eventsToFire = this.components[component][eventName];
         if (Array.isArray(eventsToFire)) {
             for (let item of eventsToFire) {
-                item();
+                item(params);
             }
         }
     }
@@ -77,7 +80,6 @@ class EventManager
                 eventName,
                 function () {
                     let element = Di.get("elementAdapter").setElement(this).get();
-                    console.log("julian", data);
                     fn.bind(data)(element)
                 }
             );

@@ -459,7 +459,7 @@ class EntityManager
     getResultSet(response, params, model, objModel)
     {
         let resultSet = new Array();
-        let hydrator = new Hydrator;
+        let hydrator  = new Hydrator;
 
         let filters  = new Filter;
         filters.buildCondition(params);

@@ -1,5 +1,10 @@
 class Initializer
 {
+    constructor(config)
+    {
+        this.config = config;
+    }
+
     /**
      * 
      */
@@ -34,6 +39,12 @@ class Initializer
             ajax
         );
 
+        Di.set(
+            "url",
+            new Url
+        );
+        this.applyConfig();
+
         let entityManager = new EntityManager;
         Di.set(
             "em",
@@ -46,13 +57,22 @@ class Initializer
         );
 
         Di.set(
-            "url",
-            new Url
-        );
-
-        Di.set(
             "elementAdapter",
             new ElementAdapter
         );
+    }
+
+    /**
+     * 
+     * @param {*} config 
+     */
+    applyConfig()
+    {
+        let config = this.config.get();
+        let paths = config["paths"];
+        for (let key in paths) {
+            let item = paths[key];
+            Di.get("url").set(key, item);
+        }
     }
 }

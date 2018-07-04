@@ -1,5 +1,6 @@
 
+let config = new Config();
 let application = new Application(
-    new Config()
+    config
 );
 application.start();

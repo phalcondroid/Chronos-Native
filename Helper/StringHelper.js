@@ -24,4 +24,20 @@ class StringHelper
     static capitalize(str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
+
+    /**
+     *
+     */
+    static ucfirst(str)
+    {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    /**
+     *
+     */
+    static lcfirst(str)
+    {
+        return str.charAt(0).toLowerCase() + str.slice(1);
+    }
 }

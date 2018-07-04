@@ -9,20 +9,7 @@ class EntityManager
         this.container = new Container();
         this.ajax = this.getDi().get("ajax");
         this.eventManager = this.getDi().get("eventManager");
-        this.config = this.getDi().get("config");
-    }
-
-    /**
-     * 
-     * @param {*} component 
-     * @param {*} methodName 
-     */
-    start(component, responseMethodName)
-    {
-        this.component = component;
-        this.responseMethodName = responseMethodName;
-        this.eventManager.attach(component, responseMethodName);
-        return this;
+        this.url = this.getDi().get("url");
     }
 
     /**
@@ -30,21 +17,89 @@ class EntityManager
      * @param {*} model 
      * @param {*} params 
      */
-    find(model, params = {})
+    find(model, func, params = {})
     {
         this.ajax = this.getDi().get("ajax");
-        objModel  = new model;
-        let url   =  + this.lcfirst(obj.getModelName()) + "/find";
+        var objModel = new model;
+        let url = this.getUrl(objModel, "find");
 
-        console.log(url);
+        this.eventManager.attach(
+            objModel.getClassName(),
+            func.name,
+            func
+        );
 
         this.ajax.setUrl(url);
         this.ajax.setParams(params);
         this.ajax.setMethod(objModel.getMethod());
-        this.ajax.response(() => {
-            this.eventManager.fire(this.component, this.responseMethodName);
+        this.ajax.response((response) => {
+            let modelsHidrated = this.getResultSet(
+                response,
+                params,
+                model,
+                objModel
+            );
+            this.eventManager.fire(
+                objModel.getClassName(),
+                func.name,
+                modelsHidrated
+            );
         });
         this.ajax.send();
+    }
+
+    getResultSet(response, params, model, objModel)
+    {
+        let resultSet = new Array();
+        let hydrator  = new Hydrator;
+
+        let filters  = new Filter;
+        filters.buildCondition(params);
+
+        var data = new Array();
+        if (objModel instanceof AjaxModelPersistent) {
+            if (objModel.getAjaxInit() == null) {
+                objModel.setAjaxInit(true);
+                objModel.setData(response);
+            }
+            data = filters.getMultipleRowValues(
+                response,
+                false
+            );
+        } else if (objModel instanceof AjaxModel) {
+            data = filters.getMultipleRowValues(
+                response,
+                false
+            );
+        } else {
+            data = filters.getMultipleRowValues(
+                response
+            );
+        }
+
+        var i = 0;
+        for (let key in data) {
+
+            let newModel = hydrator.hydrate(
+                model,
+                data[key]
+            );
+
+            if (newModel instanceof StaticModel) {
+                newModel.setIndex(i);
+            }
+
+            resultSet.push(
+                newModel
+            );
+            i++;
+        }
+
+        if (resultSet.length == 0) {
+            resultSet = false;
+        }
+
+        return resultSet;
     }
 
     /**
@@ -57,11 +112,34 @@ class EntityManager
 
     }
 
-    getUrl(modelUrl, type) {
-        let paths = this.config["paths"];
-        let baseUri = paths["baseUri"];
-        let modelName = this.lcfirst(objModel.getClassName());
-        return baseUri + "/find/" + modelName; 
+    getUrl(model, type) {
+        let baseUri = this.url.get("baseUri");
+        let modelName = StringHelper.lcfirst(model.getModelName());
+        let methodName = "";
+        switch (type) {
+            case "find":
+                methodName = model.getFindUrl();
+                break;
+            case "findOne":
+                methodName = model.getFindOneUrl();
+                break;
+            case "update":
+                methodName = model.getUpdateUrl();
+                break;
+            case "count":
+                methodName = model.getCountUrl();
+                break;
+            case "delete":
+                methodName = model.getDeleteUrl();
+                break;
+            case "insert":
+                methodName = model.getInsertUrl();
+                break;
+        }
+        if (methodName != "") {
+            return baseUri + "/" + methodName;
+        }
+        return baseUri + "/" + methodName + StringHelper.ucfirst(modelName); 
     }
 
     /**

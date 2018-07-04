@@ -22,17 +22,16 @@ class RawModel
     
     getModelName()
     {
-        return this.modelName;
+        return this.constructor.name;
     }
 
     /**
      * [getClassName description]
      * @return  [description]
      */
-    getClassName() {
-        let funcNameRegex = /function (.{1,})\(/;
-        let results  = (funcNameRegex).exec(this["constructor"].toString());
-        return (results && results.length > 1) ? results[1] : "";
+    getClassName()
+    {
+        return this.constructor.name;
     }
 
     /**

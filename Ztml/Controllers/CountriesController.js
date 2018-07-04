@@ -20,19 +20,17 @@ class CountriesController extends Controller
 
     change()
     {
-        console.log(this);
         let div = this.getDom().getById("content");
         div.append("The texto texto");
 
-        this.getEm()
-        .start("countries", "done")
-        .find(
-            Person
+        this.getEm().find(
+            Person,
+            this.done
         );
     }
     
     done(response)
     {
-        console.log("when is done");
+        console.log("when is done", response);
     }
 }
