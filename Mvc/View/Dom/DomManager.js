@@ -19,7 +19,11 @@ class DomManager
         );
         return adapter.get();
     }
-
+    
+    /**
+     * 
+     * @param {*} tag 
+     */
     create(tag)
     {
         let adapter = new ElementAdapter(

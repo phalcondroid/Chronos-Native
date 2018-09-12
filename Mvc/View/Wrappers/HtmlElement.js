@@ -633,146 +633,126 @@ class HtmlElement
         return this.getDi().get("em");
     }
 
-    /**
-     * 
-    getValidator()
+    addEvent(eventName, fn)
     {
-        let validator = {
-            get : function get(target, name) {
-                switch (name) {
-                    case "dom":
-                        return this.getDi().get("dom");
-                    case "append":
-                        return this.getElementManager().append.bind(
-                            this.getElementManager()
-                        );
-                    case "attr":
-                        return this.getElementManager().attr.bind(
-                            this.getElementManager()
-                        );
-                    case "setAttribute":
-                        return this.getElementManager().setAttribute.bind(
-                            this.getElementManager()
-                        );
-                    case "removeAttribute":
-                        return this.getElementManager().removeAttribute.bind(
-                            this.getElementManager()
-                        );
-                    case "class":
-                        return this.getElementManager().class.bind(
-                            this.getElementManager()
-                        );
-                    case "addClass":
-                        return this.getElementManager().addClass.bind(
-                            this.getElementManager()
-                        );
-                    case "removeClass":
-                        return this.getElementManager().removeClass.bind(
-                            this.getElementManager()
-                        );
-                    case "setId":
-                        return this.getElementManager().setId.bind(
-                            this.getElementManager()
-                        );
-                    case "getId":
-                        return this.getElementManager().getId.bind(
-                            this.getElementManager()
-                        );
-                    case "setRequired":
-                        return this.getElementManager().setRequired.bind(
-                            this.getElementManager()
-                        );
-                    case "getRequired":
-                        return this.getElementManager().getRequired.bind(
-                            this.getElementManager()
-                        );
-                    case "html":
-                        return this.getElementManager().html.bind(
-                            this.getElementManager()
-                        );
-                    case "setHtml":
-                        return this.getElementManager().setHtml.bind(
-                            this.getElementManager()
-                        );
-                        return this.getElementManager().setValue.bind(
-                            this.getElementManager()
-                        );
-                    case "val":
-                        return this.getElementManager().val.bind(
-                            this.getElementManager()
-                        );
-                    case "getValue":
-                        return this.getElementManager().getValue.bind(
-                            this.getElementManager()
-                        );
-                    case "valAsInt":
-                        return this.getElementManager().valAsInt.bind(
-                            this.getElementManager()
-                        );
-                    case "text":
-                        return this.getElementManager().text.bind(
-                            this.getElementManager()
-                        );
-                    case "empty":
-                        return this.getElementManager().empty.bind(
-                            this.getElementManager()
-                        );
-                    case "remove":
-                        return this.getElementManager().remove.bind(
-                            this.getElementManager()
-                        );
-                    case "getAsObject":
-                        return this.getElementManager().getAsObject.bind(
-                            this.getElementManager()
-                        );
-                    case "getAsJson":
-                        return this.getElementManager().getAsJson.bind(
-                            this.getElementManager()
-                        );
-                    case "getSibilings":
-                        return this.getParentManager().getSiblings;
-                    case "getParent":
-                        return this.getParentManager().getParent;
-                    case "getChilds":
-                        return this.getParentManager().getChilds;
-                    case "click":
-                        return this.getParentManager().click;
-                    case "doubleClick":
-                        return this.getParentManager().doubleClick;
-                    case "change":
-                        return this.getParentManager().change;
-                    case "keypress":
-                        return this.getParentManager().keypress;
-                    case "keydown":
-                        return this.getParentManager().keydown;
-                    case "keyup":
-                        return this.getParentManager().keyup;
-                    case "paste":
-                        return this.getParentManager().paste;
-                    case "blur":
-                        return this.getParentManager().blur;
-                    case "focus":
-                        return this.getParentManager().focus;
-                    case "submit":
-                        return this.getParentManager().submit;
-                    case "show":
-                        return this.getCss().show;
-                    case "hide":
-                        return this.getCss().hide;
-                    case "css":
-                        return this.getCss().css;
-                    case "setStyle":
-                        return this.getCss().setStyle;
-                    case "className":
-                        return target.constructor.name;
-                    default:
-                        return target[name];
-                }
-            }.bind(this)
-        };
-        return validator;
+        this.getEventManager().setEventToElement(
+            this.element,
+            eventName,
+            fn,
+            data
+        );
+        return this;
     }
-    */
+
+    click(fn, data = false)
+    {
+        this.getEventManager().setEventToElement(
+            this.element,
+            "click",
+            fn,
+            data
+        );
+        return this;
+    }
+
+    doubleClick(fn, data = false)
+    {
+        this.getEventManager().setEventToElement(
+            this.element,
+            "doubleClick",
+            fn,
+            data
+        );
+        return this;
+    }
+
+    change(fn, data = false)
+    {
+        this.getEventManager().setEventToElement(
+            this.element,
+            "change",
+            fn,
+            data
+        );
+        return this;
+    }
+
+    keypress(fn, data = false)
+    {
+        this.getEventManager().setEventToElement(
+            this.element,
+            "keypress",
+            fn,
+            data
+        );
+        return this;
+    }
+
+    keydown(fn, data = false)
+    {
+        this.getEventManager().setEventToElement(
+            this.element,
+            "keydown",
+            fn,
+            data
+        );
+        return this;
+    }
+
+    keyup(fn, data = false)
+    {
+        this.getEventManager().setEventToElement(
+            this.element,
+            "keyup",
+            fn,
+            data
+        );
+        return this;
+    }
+
+    paste(fn, data = false)
+    {
+        this.getEventManager().setEventToElement(
+            this.element,
+            "paste",
+            fn,
+            data
+        );
+        return this;
+    }
+
+    blur(fn, data = false)
+    {
+        this.getEventManager().setEventToElement(
+            this.element,
+            "blur",
+            fn,
+            data
+        );
+        return this;
+    }
+
+    focus(fn, data = false)
+    {
+        this.getEventManager().setEventToElement(
+            this.element,
+            "focus",
+            fn,
+            data
+        );
+        return this;
+    }
+
+    submit(fn, data = false)
+    {
+        this.getEventManager().setEventToElement(
+            this.element,
+            "submit",
+            fn,
+            data
+        );
+        return this;
+    }
 
     /**
      * 

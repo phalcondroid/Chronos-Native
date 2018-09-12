@@ -10,8 +10,8 @@ class Ajax
         this.method  = "POST";
         this.parameters = "";
         this.container  = [];
-        this.responseFn = function() {};
-        this.bfSendFn = function () {}.bind(this);
+        this.responseFn = () => {};
+        this.bfSendFn   = () => {};
     }
 
     /**
@@ -147,7 +147,7 @@ class Ajax
         try {
             this.bfSendFn();
             this.addContext();
-            this.httpRequest.onreadystatechange = function () {
+            this.httpRequest.onreadystatechange = () => {
                 if (this.httpRequest.readyState === this.httpRequest.DONE) {
                     if (this.httpRequest.status === 200) {
                         if (typeof this.httpRequest.response != "undefined") {
@@ -161,7 +161,7 @@ class Ajax
                         this.error = "ajax status" + this.httpRequest.status + " " + this.httpRequest.statusText;
                     }
                 }
-            }.bind(this);
+            };
         } catch (e) {
             console.log("Network.AJax.Exception", e);
         }
@@ -204,8 +204,8 @@ class Ajax
         this.parameters = "";
         this.error      = null;
         this.url        = "";
-        this.bfSendFn   = function () {};
-        this.responseFn = function () {};
+        this.bfSendFn   = () => {};
+        this.responseFn = () => {};
         this.container  = [];
     }
 
@@ -215,7 +215,7 @@ class Ajax
     send(fn = false)
     {
         if (typeof fn == "function") {
-            this.response(fn.bind(this));
+            this.response(fn);
         }
 
         this.httpRequest.open(
@@ -226,6 +226,30 @@ class Ajax
         this.httpRequest.send(
             this.parameters
         );
+    }
+
+    /** 
+     * 
+     */
+    getDom()
+    {
+        return this.getDi().get("dom");
+    }
+
+    /** 
+     * 
+     */
+    getAjax()
+    {
+        return this.getDi().get("ajax");
+    }
+
+    /** 
+     * 
+     */
+    getEventManager()
+    {
+        return this.getDi().get("eventManager");
     }
 
     /**

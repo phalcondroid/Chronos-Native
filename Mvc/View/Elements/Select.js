@@ -64,19 +64,33 @@ class Select extends FormTag
         }
     }
 
-    fetch(content)
+    fetch(content, params = false)
     {
-        if (Array.isArray(content) || typeof content == "object") {
+        if (Array.isArray(content)) {
             for (let key in content) {
-                this.append(
-                    new Option()
-                    .attr({
-                        "value" : key,
-                    })
-                    .html(content[key])
-                );
+                if (content[key] instanceof RawModel) {
+                    if (params == false) {
+                        throw "params are mandatory!"
+                    }
+                    let model = content[key];
+                    this.append(
+                        new Option()
+                        .attr({
+                            "value" : model[params[0]],
+                        })
+                        .html(model[params[1]])
+                    );
+                } else {
+                    this.append(
+                        new Option()
+                        .attr({
+                            "value" : key,
+                        })
+                        .html(content[key])
+                    );
+                }
             }
-        }
+        } 
         return this;
     }
 }

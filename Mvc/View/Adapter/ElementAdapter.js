@@ -33,7 +33,7 @@ class ElementAdapter
                 elem = this.element.nodeName;
             }
         } else {
-            elem = this.element;
+            elem = this.element.toUpperCase();
         }
         let instance = false;
         switch (elem) {

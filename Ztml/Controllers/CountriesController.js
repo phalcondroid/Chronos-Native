@@ -16,10 +16,16 @@ class CountriesController extends Controller
         console.log("New button function clicked!");
     }
 
-    change()
+    change(element)
     {
+        let button = this.getTag("button");
+        button.class("btn btn-success");
+        button.append("You awesome");
+
         let div = this.getDom().getById("content");
         div.append("The texto texto");
+        div.append(this.getTag("br"));
+        div.append(button);
 
         this.getEm().find(
             Person,
