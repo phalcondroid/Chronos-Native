@@ -31,7 +31,11 @@ class Application
      */
     start()
     {
-        let handler = new Handler;
-        handler.handle();
+        try {
+            let handler = new Handler;
+            handler.handle();
+        } catch (e) {
+            console.warn(e);
+        }
     }
 }

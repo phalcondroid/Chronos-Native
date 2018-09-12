@@ -15,18 +15,11 @@ class Handler
      */
     arrangeElement(item)
     {
-        let viewInstance = eval("new " + item.getAttribute("chronos-init") + "(item)");
-        viewInstance.setElement(item);
-
-        let instance = eval("new " + this.ucfirst(item.getAttribute("chronos-init") + "Controller"));
-        instance.setView(new ViewModel);
-        instance.setViewElement(viewInstance);
-        instance.initialize();
-
-        viewInstance.setData(instance.getView());
-        viewInstance.initialize();
-
-        this.searchForActions(instance, viewInstance);
+        let htmlComponent = new ElementAdapter(item);
+        let controller = eval("new " + this.ucfirst(item.getAttribute("chronos-init") + "Controller"));
+        controller.setElement(htmlComponent.get());
+        controller.initialize();
+        this.searchForActions(controller, htmlComponent.get());
     }
 
     /**

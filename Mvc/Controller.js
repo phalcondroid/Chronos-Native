@@ -8,6 +8,7 @@ class Controller
     {
         this.di = new Service;
         let injectable = new Injectable();
+        this.element = null;
         return injectable.inject(this, resolveProperties);
     }
 
@@ -16,35 +17,18 @@ class Controller
      * @param key 
      * @param viewModel 
      */
-    setView(viewModel)
+    setElement(element)
     {
-        this.view = viewModel;
+        this.element = element;
     }
 
     /**
      * 
      * @param key 
      */
-    getView()
+    getElement()
     {
-        return this.view;
-    }
-
-    /**
-     * 
-     */
-    getViewElement()
-    {
-        return this.viewElement;
-    }
-
-    /**
-     * 
-     * @param di 
-     */
-    setViewElement(view)
-    {
-        this.viewElement = view;
+        return this.element;
     }
 
     getEm()

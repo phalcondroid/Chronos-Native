@@ -2,18 +2,16 @@ class CountriesController extends Controller
 {
     initialize()
     {
-        this.view.set(
-            "something",
-            {
-                "first"  : "first",
-                "second" : "second",
-                "three"  : "three",
-                "four"   : "four"
-            }
-        );
+        this.getElement().class("form-control");
+        this.getElement().fetch({
+            "first"  : "first",
+            "second" : "second",
+            "three"  : "three",
+            "four"   : "four"
+        });
     }
 
-    newButtonClick()
+    click()
     {
         console.log("New button function clicked!");
     }
@@ -31,6 +29,20 @@ class CountriesController extends Controller
     
     done(response)
     {
-        console.log("when is done", response);
+        console.log(
+            "when is done",
+            response
+        );
     }
+
+    newFieldTo(changes)
+    {
+        this.view.set(
+            "other",
+            {
+                "key1" : "no can",
+                "key2" : "si can"
+            }
+        );
+    } 
 }
