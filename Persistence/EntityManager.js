@@ -23,7 +23,7 @@ class EntityManager
         var objModel = new model;
         let url = this.getUrl(objModel, "find");
 
-        this.eventManager.attach(
+        this.eventManager.set(
             objModel.getClassName(),
             func.name,
             func
@@ -39,7 +39,7 @@ class EntityManager
                 model,
                 objModel
             );
-            this.eventManager.fire(
+            this.eventManager.execute(
                 objModel.getClassName(),
                 func.name,
                 modelsHidrated
@@ -79,16 +79,13 @@ class EntityManager
 
         var i = 0;
         for (let key in data) {
-
             let newModel = hydrator.hydrate(
                 model,
                 data[key]
             );
-
             if (newModel instanceof StaticModel) {
                 newModel.setIndex(i);
             }
-
             resultSet.push(
                 newModel
             );
@@ -113,8 +110,8 @@ class EntityManager
     }
 
     getUrl(model, type) {
-        let baseUri = this.url.get("baseUri");
-        let modelName = StringHelper.lcfirst(model.getModelName());
+        let baseUri    = this.url.get("baseUri");
+        let modelName  = StringHelper.lcfirst(model.getModelName());
         let methodName = "";
         switch (type) {
             case "find":

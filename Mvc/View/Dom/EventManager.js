@@ -7,6 +7,7 @@ class EventManager
     constructor()
     {
         this.components = {};
+        this.eventNow   = {};
     }
 
     /**
@@ -38,6 +39,41 @@ class EventManager
                 item(params);
             }
         }
+    }
+
+    /**
+     * 
+     * @param {*} component 
+     * @param {*} eventName 
+     */
+    set(component, eventName, func) 
+    {
+        this.eventNow[component] = {};
+        this.eventNow[component][eventName] = func;
+    }
+
+    /**
+     * 
+     * @param {*} component 
+     * @param {*} eventName 
+     * @param {*} params 
+     */
+    execute(component, eventName, params)
+    {
+        let eventToFire = this.eventNow[component][eventName];
+        if (typeof eventToFire == "function") {
+            eventToFire(params);
+        }
+    }
+
+    /**
+     * 
+     * @param {*} component 
+     * @param {*} eventName 
+     */
+    clear(component, eventName)
+    {
+        this.components[component][eventName] = new Array;
     }
 
     /**
